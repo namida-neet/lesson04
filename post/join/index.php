@@ -33,10 +33,24 @@
         if ($_POST['password'] == '') {
             $error['password'] = 'blank';
         }
+        if (isset($_FILES['image'])) {
+            $fileName = $_FILES['image']['name'];
+            if (!empty($fileName)) {
+                $ext = substr($fileName, -3);
+                if ($ext != 'jpg' && 'ext' != 'gif') {
+                    $error['image'] = 'type';
+                }
+            }
+        }
 
         if (empty($error)) {
+            //画像をアップロードする
+            $image = date('YmdHis') . $_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'], '../member_pictures' . $image);
+
             $_SESSION['join'] = $_POST;
-            header('Location: chack.php');
+            $_SESSION['join']['image'] = $image;
+            header('Location: check.php');
             exit();
         }
     }
@@ -71,7 +85,15 @@
             <?php endif; ?>
           </dd>
           <dt>写真など</dt>
-          <dd><input type="file" name="image" size="35"></dd>
+          <dd>
+            <input type="file" name="image" size="35">
+            <?php if (isset($error['image']) && $error['image'] == 'type') : ?>
+            <p class="error">* 写真などは「.gif」または「.jpg」の画像を指定してください</p>
+            <?php endif; ?>
+            <?php if (!empty($error)) : ?>
+            <p class="error">* 恐れ入りますが、画像を改めて指定してください</p>
+            <?php endif; ?>
+          </dd>
         </dl>
         <br>
         <div><input type="submit" value="入力内容を確認する"></div>
