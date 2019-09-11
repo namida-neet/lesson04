@@ -54,6 +54,12 @@
             exit();
         }
     }
+
+    //書き出し
+    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'rewrite') {
+        $_POST = $_SESSION['join'];
+        $error['rewrite'] = true;
+    }
     ?>
 
     <div id="content">
