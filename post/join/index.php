@@ -33,15 +33,13 @@
         if ($_POST['password'] == '') {
             $error['password'] = 'blank';
         }
-        //if (isset($_FILES['image'])) {
-            $fileName = $_FILES['image']['name'];
-            if (!empty($fileName)) {
-                $ext = substr($fileName, -3);
-                if ($ext != 'jpg' && $ext != 'gif') {
-                    $error['image'] = 'type';
-                }
+        $fileName = $_FILES['image']['name'];
+        if (!empty($fileName)) {
+            $ext = substr($fileName, -3);
+            if ($ext != 'jpg' && $ext != 'gif') {
+                $error['image'] = 'type';
             }
-        //}
+        }
 
         if (empty($error)) {
             //画像をアップロードする
@@ -64,7 +62,7 @@
 
     <div id="content">
       <p>次のフォームに必要事項をご記入ください。</p>
-      <form action="" method="post" enctyoe="multipart/form-data">
+      <form action="" method="post" enctype="multipart/form-data">
         <dl>
           <dt>ニックネーム<span class="required">必須</span></dt>
           <dd>
