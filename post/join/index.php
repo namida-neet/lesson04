@@ -33,20 +33,20 @@
         if ($_POST['password'] == '') {
             $error['password'] = 'blank';
         }
-        if (isset($_FILES['image'])) {
+        //if (isset($_FILES['image'])) {
             $fileName = $_FILES['image']['name'];
             if (!empty($fileName)) {
                 $ext = substr($fileName, -3);
-                if ($ext != 'jpg' && 'ext' != 'gif') {
+                if ($ext != 'jpg' && $ext != 'gif') {
                     $error['image'] = 'type';
                 }
             }
-        }
+        //}
 
         if (empty($error)) {
             //画像をアップロードする
             $image = date('YmdHis') . $_FILES['image']['name'];
-            move_uploaded_file($_FILES['image']['tmp_name'], '../member_pictures' . $image);
+            move_uploaded_file($_FILES['image']['tmp_name'], '../member_pictures/' . $image);
 
             $_SESSION['join'] = $_POST;
             $_SESSION['join']['image'] = $image;

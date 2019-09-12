@@ -13,7 +13,7 @@ if (!empty($_POST)) {
     echo $ret = $statement->execute(array(
         $_SESSION['join']['name'],
         $_SESSION['join']['email'],
-        shal['join']['password'],
+        sha1($_SESSION['join']['password']),
         $_SESSION['join']['image']
     ));
     unset($_SESSION['join']);
