@@ -19,7 +19,7 @@ if (!empty($_POST)) {
         ));
         $member = $login->fetch();
 
-        if ($member) {  //←？？？？？？？？？？？？
+        if ($member) {
             //ログイン成功
             $_SESSION['id'] = $member['id'];
             $_SESSION['time'] = time();
