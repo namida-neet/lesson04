@@ -9,6 +9,11 @@ if (empty($_REQUEST['id'])) {
 // 投稿を取得する
 $posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id AND p.id=? ORDER BY p.created DESC');
 $posts->execute(array($_REQUEST['id']));
+
+// htmlspecialcharsのショートカット
+function h($value) {
+    return htmlspecialchars($value, ENT_QUOTES);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -28,13 +33,13 @@ $posts->execute(array($_REQUEST['id']));
       <p>&laquo;<a href="index.php">一覧に戻る</a></p>
         <?php if ($post = $posts->fetch()) : ?>
         <div class="msg">
-          <img src="member_pictures/<?php echo htmlspecialchars($post['picture'], ENT_QUOTES); ?>" width="48" height="48" alt="<?php echo htmlspecialchars($post['name'], ENT_QUOTES); ?>">
+          <img src="member_pictures/<?php echo h($post['picture']); ?>" width="48" height="48" alt="<?php echo h($post['name']); ?>">
           <p>
-            <?php echo htmlspecialchars($post['message'], ENT_QUOTES); ?>
-            <span class="name">(<?php echo htmlspecialchars($post['name'], ENT_QUOTES); ?>)</span>
+            <?php echo h($post['message']); ?>
+            <span class="name">(<?php echo h($post['name']); ?>)</span>
           </p>
           <p class="day">
-            <?php echo htmlspecialchars($post['created'], ENT_QUOTES); ?>
+            <?php echo h($post['created']); ?>
           </p>
         </div>
         <?php else : ?>

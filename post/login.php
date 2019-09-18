@@ -39,6 +39,11 @@ if (!empty($_POST)) {
         $error['login'] = 'blank';
     }
 }
+
+// htmlspecialcharsのショートカット
+function h($value) {
+    return htmlspecialchars($value, ENT_QUOTES);
+}
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +72,7 @@ if (!empty($_POST)) {
       <dl>
         <dt>メールアドレス</dt>
         <dd>
-          <input type="text" name="email" size="35" maxlength="255" value="<?php if (isset($_POST['email'])) {echo htmlspecialchars($_POST['email'], ENT_QUOTES);} ?>">
+          <input type="text" name="email" size="35" maxlength="255" value="<?php if (isset($_POST['email'])) {echo h($_POST['email']);} ?>">
             <?php if (isset($erroe['login']) && $error['login'] == 'blank') : ?>
             <p class="error">* メールアドレスとパスワードをご記入ください。</p>
             <?php endif; ?>
@@ -77,7 +82,7 @@ if (!empty($_POST)) {
         </dd>
         <dt>パスワード</dt>
         <dd>
-          <input type="password" name="password" size="35" maxlength="255" value="<?php if (isset($_POST['password'])) { echo htmlspecialchars($_POST['password'], ENT_QUOTES); } ?>">
+          <input type="password" name="password" size="35" maxlength="255" value="<?php if (isset($_POST['password'])) { echo h($_POST['password']); } ?>">
         </dd>
         <dt>ログイン情報の記録</dt>
         <dd>
