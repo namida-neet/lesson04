@@ -104,6 +104,9 @@ function makeLink($value) {
             <?php if ($post['reply_post_id'] > 0) : ?>
             <a href="view.php?id=<?php echo h($post['reply_post_id']); ?>">返信元のメッセージ</a>
             <?php endif; ?>
+            <?php if ($_SESSION['id'] == $post['member_id']) : ?>
+            [<a href="delete.php?id=<?php echo h($post['id']); ?>" style="color:#f33">削除削除削除</a>]
+            <?php endif; ?>
           </p>
         </div>
         <?php endforeach; ?>
