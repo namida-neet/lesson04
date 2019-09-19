@@ -18,13 +18,20 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) {
 //投稿を記録する
 if (!empty($_POST)) {
     if ($_POST['message'] != '') {
-        $message = $db->prepare('INSERT INTO posts SET member_id=?, message=?, reply_post_id=?, created=NOW()');
-        $message->execute(array(
-          $member['id'],
-          $_POST['message'],
-          $_POST['reply_post_id'],
-        ));
-
+        if ($_POST['reply_post_id'] != '') {
+            $message = $db->prepare('INSERT INTO posts SET member_id=?, message=?, reply_post_id=?, created=NOW()');
+            $message->execute(array(
+              $member['id'],
+              $_POST['message'],
+              $_POST['reply_post_id'],
+            ));
+        } else {
+            $message = $db->prepare('INSERT INTO posts SET member_id=?, message=?, reply_post_id=0, created=NOW()');
+            $message->execute(array(
+              $member['id'],
+              $_POST['message'],
+            ));
+        }
         header('Location: index.php');
         exit();
     }
