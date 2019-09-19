@@ -4,6 +4,7 @@ require('dbconnect.php');
 
 if (empty($_REQUEST['id'])) {
     header('Location: index.php');
+    exit();
 }
 
 // 投稿を取得する
@@ -11,8 +12,7 @@ $posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHE
 $posts->execute(array($_REQUEST['id']));
 
 // htmlspecialcharsのショートカット
-function h($value)
-{
+function h($value) {
     return htmlspecialchars($value, ENT_QUOTES);
 }
 ?>

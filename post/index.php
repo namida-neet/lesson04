@@ -43,9 +43,13 @@ if (isset($_REQUEST['res'])) {
 }
 
 // htmlspecialcharsのショートカット
-function h($value)
-{
+function h($value) {
     return htmlspecialchars($value, ENT_QUOTES);
+}
+
+// 本文内のURLにリンクを設置する
+function makeLink($value) {
+    return mb_ereg_replace("(https?)(://[[alnum:]\+\$\;\?\.%,!#~*/:@$=_-]+)", '<a href="\1\2">\1\2</a>', $value);
 }
 ?>
 
@@ -72,12 +76,8 @@ function h($value)
         <dl>
           <dt><?php echo h($member['name']); ?>さん、メッセージをどうぞ</dt>
           <dd>
-            <textarea name="message" id="" cols="50" rows="5"><?php if (isset($message)) {
-                echo h($message);
-                                                              } ?></textarea>
-            <input type="hidden" name="reply_post_id" value="<?php if (isset($_REQUEST['res'])) {
-                echo h($_REQUEST['res']);
-                                                             } ?>">
+            <textarea name="message" id="" cols="50" rows="5"><?php if (isset($message)) { echo h($message); } ?></textarea>
+            <input type="hidden" name="reply_post_id" value="<?php if (isset($_REQUEST['res'])) { echo h($_REQUEST['res']); } ?>">
           </dd>
         </dl>
         <div>
@@ -89,7 +89,7 @@ function h($value)
         <div class="msg">
           <img src="member_pictures/<?php echo h($post['picture']); ?>" width="48" height="48" alt="<?php echo h($post['name']); ?>">
           <p>
-              <?php echo h($post['message']); ?><span class="name">(<?php echo h($post['name']); ?>)</span>
+              <?php echo makeLink(h($post['message'])); ?><span class="name">(<?php echo h($post['name']); ?>)</span>
               [<a href="index.php?res=<?php echo h($post['id']); ?>">Re</a>]
           </p>
           <p class="day">
