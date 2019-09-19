@@ -11,7 +11,8 @@ $posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHE
 $posts->execute(array($_REQUEST['id']));
 
 // htmlspecialcharsのショートカット
-function h($value) {
+function h($value)
+{
     return htmlspecialchars($value, ENT_QUOTES);
 }
 ?>
