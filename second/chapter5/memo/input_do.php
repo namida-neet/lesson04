@@ -14,16 +14,19 @@
 
   <main>
     <h2>Practice</h2>
-    <pre>
     <?php
     try {
-        $db = new PDO('mysql:dbname=mydb;host:127.0.0.1;charset=utf8', 'root', 'root');
-        echo '接続';
-    } catch (PDOException $e) {
-        echo 'DB接続エラー:' . $e->getMessage();
+        $db = new PDO('mysql:dbname=mydb;host=127.0.0.1;port=8889;charset=utf8', 'root', 'root');
+    } catch(PDOException $e) {
+        echo 'DB接続エラー：' . $e->getMessage();
     }
+
+    $statement = $db->prepare('INSERT INTO memos SET memo=?, created_at=NOW()');
+    $statement->bindParam(1, $_POST['memo'], );
+    $statement->execute();
+    var_dump($_POST['memo']);
+    echo 'メモが登録されました';
     ?>
-    </pre>
   </main>
 </body>
 </html>
