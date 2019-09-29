@@ -5,7 +5,7 @@
 <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="layout.css">
+  <link rel="stylesheet" href="style.css">
   <title>よくわかるPHPの教科書</title>
 </head>
 <body>
@@ -39,16 +39,18 @@
       <?php endwhile; ?>
       <?php if ($page >= 2) : ?>
         <a href="index.php?page=<?php echo ($page - 1); ?>"><?php echo ($page - 1); ?>ページ目へ</a>
+        ｜
       <?php endif; ?>
-      |
       <?php
       $counts = $db->query('SELECT COUNT(*) AS cnt FROM memos');
       $count = $counts->fetch();
       $max_page = ceil($count['cnt'] / 5);
       if ($page < $max_page) :
       ?>
-      <a href="index.php?page=<?php echo ($page + 1); ?>"><?php echo ($page + 1); ?>ページ目へ</a>
+        <a href="index.php?page=<?php echo ($page + 1); ?>"><?php echo ($page + 1); ?>ページ目へ</a>
+        ｜
       <?php endif; ?>
+      <a href="input.html">登録する</a>
     </article>
   </main>
 </body>

@@ -26,13 +26,14 @@ main {
   /* margin-left: 300px; */
   padding: 30px;
 }
-main h2 {
-  font-size: 120%;
-  text-shadow: 1px 1px 3px #999;
+h2 {
+  display: none;
+  /* font-size: 120%; */
+  /* text-shadow: 1px 1px 3px #999; */
 }
-main h2 img {
+/* main h2 img {
   height: 1em;
-}
+} */
 /* pre { */
 .pre {
   min-height: 100px;
