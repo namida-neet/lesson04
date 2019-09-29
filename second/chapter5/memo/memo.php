@@ -16,12 +16,21 @@
   <main>
     <h2>Practice</h2>
     <?php
-    $statement = $db->prepare('INSERT INTO memos SET memo=?, created_at=NOW()');
-    $statement->bindParam(1, $_POST['memo'], );
-    $statement->execute();
-    var_dump($_POST['memo']);
-    echo 'メモが登録されました';
+    $id = $_GET['id'];
+    if (!is_numeric($id) || $id <= 0) {
+        echo '1以上の数字で指定してください';
+        exit();
+    }
+    $memos = $db->prepare('SELECT * FROM memos WHERE id=?');
+    $memos->execute(array($_GET['id']));
+    $memo = $memos->fetch();
     ?>
+    <article>
+      <div class="pre">
+        <?php echo $memo['memo']; ?>
+      </div>
+      <a href="index.php">戻る</a>
+    </article>
   </main>
 </body>
 </html>
