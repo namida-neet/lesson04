@@ -5,4 +5,10 @@ try {
 } catch (PDOException $e) {
     echo '接続エラー' . $e->getMessage();
 }
+if (isset($db)) {
+  var_dump($db);
+}
+if (isset($e)) {
+  var_dump($e);
+}
 ?>
