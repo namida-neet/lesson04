@@ -18,10 +18,14 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 60 * 60 > time()) {
 // 投稿を記録する
 if (!empty($_POST)) {
     if ($_POST['message']) {
-        $message = $db->prepare('INSERT INTO posts SET member_id=?, message=?, created=NOW()');
+        if ($_POST['reply_post_id'] === '') {
+            $_POST['reply_post_id'] = NULL;
+        }
+        $message = $db->prepare('INSERT INTO posts SET member_id=?, message=?, reply_post_id=?, created=NOW()');
         $message->execute(array(
             $member['id'],
             $_POST['message'],
+            $_POST['reply_post_id'],
         ));
 
         header('Location: index.php');
@@ -31,6 +35,16 @@ if (!empty($_POST)) {
 
 // 投稿を取得する
 $posts = $db->query('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id ORDER BY p.created DESC');
+
+// 返信の場合
+if (isset($_GET['res'])) {
+    $response = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id AND p.id=? ORDER BY p.created DESC');
+    $response->execute(array(
+        $_GET['res'],
+    ));
+    $table = $response->fetch();
+    $message = $table['message'] . '@' . $table['name'] . ' > ';
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -55,7 +69,8 @@ $posts = $db->query('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE
         <dl>
           <dt><?php if(isset($member['name'])) {echo htmlspecialchars($member['name'], ENT_QUOTES);} ?>さん、メッセージを入力してください</dt>
           <dd>
-            <textarea name="message" id="" cols="50" rows="5"></textarea>
+            <textarea name="message" id="" cols="50" rows="5"><?php if (isset($message)) {echo htmlspecialchars($message, ENT_QUOTES);} ?></textarea>
+            <input type="hidden" name="reply_post_id" value="<?php if (isset($_GET['res'])) {echo htmlspecialchars($_GET['res'], ENT_QUOTES);} ?>">
           </dd>
         </dl>
         <div>
@@ -65,7 +80,10 @@ $posts = $db->query('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE
       <?php foreach ($posts as $post) : ?>
       <div class="msg">
         <img src="member_picture/<?php if(isset($post['picture'])) {echo htmlspecialchars($post['picture'], ENT_QUOTES);} ?>" alt="<?php if(isset($oist['name'])) {echo htmlspecialchars($post['name'], ENT_QUOTES);} ?>" width="48" height="48">
-        <p><?php if(isset($post['message'])) {echo htmlspecialchars($post['message'], ENT_QUOTES);} ?><span class="name">（<?php if (isset($post['name'])) {echo htmlspecialchars($post['name'], ENT_QUOTES);} ?>）</span></p>
+        <p>
+          <?php if(isset($post['message'])) {echo htmlspecialchars($post['message'], ENT_QUOTES);} ?><span class="name">（<?php if (isset($post['name'])) {echo htmlspecialchars($post['name'], ENT_QUOTES);} ?>）</span>
+          <span class="reply">[<a href="index.php?res=<?php if (isset($post['id'])) {echo htmlspecialchars($post['id'], ENT_QUOTES);}?>">Re</a>]</span>
+        </p>
         <p class="day"><?php if (isset($post['created'])) {echo htmlspecialchars($post['created'], ENT_QUOTES);} ?></p>
       </div>
       <?php endforeach; ?>
@@ -96,6 +114,11 @@ if (isset($message)) {
 if (isset($post)) {
   echo '★↓$post';
   var_dump($post);
+}
+
+if (isset($table)) {
+  echo '★↓$table';
+  var_dump($table);
 }
 
 if (isset($error)) {
