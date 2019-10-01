@@ -11,6 +11,11 @@ $posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHE
 $posts->execute(array(
     $_GET['id'],
 ));
+
+// htmlspecialchars
+function h($value) {
+    return htmlspecialchars($value, ENT_QUOTES);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -34,13 +39,13 @@ $posts->execute(array(
       <p>&laquo;<a href="index.php">一覧に戻る</a></p>
       <?php if ($post = $posts->fetch()) : ?>
       <div class="msg">
-        <img src="member_picture/<?php if (isset($post['picture'])) {echo htmlspecialchars($post['picture'], ENT_QUOTES);} ?>" alt="<?php if (isset($post['name'])) {echo htmlspecialchars($post['name'], ENT_QUOTES);} ?>" width="48" height="48">
+        <img src="member_picture/<?php if (isset($post['picture'])) {echo h($post['picture']);} ?>" alt="<?php if (isset($post['name'])) {echo h($post['name']);} ?>" width="48" height="48">
         <p>
-          <?php if (isset($post['message'])) {echo htmlspecialchars($post['message'], ENT_QUOTES);} ?>
-          <span class="name">（<?php if (isset($post['name'])) {echo htmlspecialchars($post['name'], ENT_QUOTES);} ?>）</span>
+          <?php if (isset($post['message'])) {echo h($post['message']);} ?>
+          <span class="name">（<?php if (isset($post['name'])) {echo h($post['name']);} ?>）</span>
         </p>
         <p class="day">
-          <?php if ($post['created']) {echo htmlspecialchars($post['created'], ENT_QUOTES);} ?>
+          <?php if ($post['created']) {echo h($post['created']);} ?>
         </p>
       </div>
       <?php else : ?>

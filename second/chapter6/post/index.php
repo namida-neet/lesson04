@@ -45,6 +45,11 @@ if (isset($_GET['res'])) {
     $table = $response->fetch();
     $message = $table['message'] . '@' . $table['name'] . ' > ';
 }
+
+// htmlspecialchars
+function h($value) {
+    return htmlspecialchars($value, ENT_QUOTES);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -67,10 +72,10 @@ if (isset($_GET['res'])) {
 
       <form action="" method="post">
         <dl>
-          <dt><?php if(isset($member['name'])) {echo htmlspecialchars($member['name'], ENT_QUOTES);} ?>さん、メッセージを入力してください</dt>
+          <dt><?php if(isset($member['name'])) {echo h($member['name']);} ?>さん、メッセージを入力してください</dt>
           <dd>
-            <textarea name="message" id="" cols="50" rows="5"><?php if (isset($message)) {echo htmlspecialchars($message, ENT_QUOTES);} ?></textarea>
-            <input type="hidden" name="reply_post_id" value="<?php if (isset($_GET['res'])) {echo htmlspecialchars($_GET['res'], ENT_QUOTES);} ?>">
+            <textarea name="message" id="" cols="50" rows="5"><?php if (isset($message)) {echo h($message);} ?></textarea>
+            <input type="hidden" name="reply_post_id" value="<?php if (isset($_GET['res'])) {echo h($_GET['res']);} ?>">
           </dd>
         </dl>
         <div>
@@ -79,19 +84,19 @@ if (isset($_GET['res'])) {
       </form>
       <?php foreach ($posts as $post) : ?>
       <div class="msg">
-        <img src="member_picture/<?php if(isset($post['picture'])) {echo htmlspecialchars($post['picture'], ENT_QUOTES);} ?>" alt="<?php if(isset($oist['name'])) {echo htmlspecialchars($post['name'], ENT_QUOTES);} ?>" width="48" height="48">
+        <img src="member_picture/<?php if(isset($post['picture'])) {echo h($post['picture']);} ?>" alt="<?php if(isset($post['name'])) {echo h($post['name']);} ?>" width="48" height="48">
         <p>
-          <?php if(isset($post['message'])) {echo htmlspecialchars($post['message'], ENT_QUOTES);} ?><span class="name">（<?php if (isset($post['name'])) {echo htmlspecialchars($post['name'], ENT_QUOTES);} ?>）</span>
-          <span class="reply">[<a href="index.php?res=<?php if (isset($post['id'])) {echo htmlspecialchars($post['id'], ENT_QUOTES);}?>">Re</a>]</span>
+          <?php if(isset($post['message'])) {echo h($post['message']);} ?><span class="name">（<?php if (isset($post['name'])) {echo h($post['name']);} ?>）</span>
+          <span class="reply">[<a href="index.php?res=<?php if (isset($post['id'])) {echo h($post['id']);}?>">Re</a>]</span>
         </p>
         <p class="day">
-          <?php if (isset($post['created'])) {echo htmlspecialchars($post['created'], ENT_QUOTES);} ?>
+          <?php if (isset($post['created'])) {echo h($post['created']);} ?>
         </p>
         <p class="more">
-          <a href="view.php?id=<?php if (isset($post['id'])) {echo htmlspecialchars($post['id'], ENT_QUOTES);} ?>">▼</a>
+          <a href="view.php?id=<?php if (isset($post['id'])) {echo h($post['id']);} ?>">▼</a>
         </p>
         <?php if (isset($post['reply_post_id'])) {if ($post['reply_post_id'] > 0) : ?>
-        <a href="view.php?id=<?php echo htmlspecialchars($post['reply_post_id'], ENT_QUOTES); ?>">返信元のメッセージ</a>
+        <a href="view.php?id=<?php echo h($post['reply_post_id']); ?>">返信元のメッセージ</a>
         <?php endif;} ?>
       </div>
       <?php endforeach; ?>
