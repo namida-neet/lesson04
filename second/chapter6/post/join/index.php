@@ -1,4 +1,6 @@
 <?php
+require('../dbconnect.php');
+
 session_start();
 
 if (!empty($_POST)) {
@@ -23,6 +25,16 @@ if (!empty($_POST)) {
         }
     }
 
+    // 重複アカウントのチェック
+    if (empty($error)) {
+        $member = $db->prepare('SELECT COUNT(*) AS cnt FROM members WHERE email=?');
+        $member->execute(array($_POST['email']));
+        $record = $member->fetch();
+        if ($record['cnt'] > 0) {
+            $error['email'] = 'duplicate';
+        }
+    }
+
     if (empty($error)) {
         // 画像をアップロードする
         $image = date('YmdHis') . $_FILES['image']['name'];
@@ -32,29 +44,17 @@ if (!empty($_POST)) {
     if (empty($error)) {
         $_SESSION['join'] = $_POST;
         $_SESSION['join']['image'] = $image;
-        // header('Location: check.php');
-        // exit();
+        header('Location: check.php');
+        exit();
     }
 
-  // 確認用
-  if (isset($image)) {
-    echo '↓$image';
-    var_dump($image);
-  }
-
-  echo '↓$_FILES';
-  var_dump($_FILES);
-
-  if (isset($error)) {
-    echo '↓$error';
-    var_dump($error);
-  }
-
-  echo '↓$_POST';
-  var_dump($_POST);
-
-  echo '↓$_SESSION';
-  var_dump($_SESSION);
+}
+// 書き直し
+if (isset($_GET['action']) && isset($_SESSION['join'])) {
+    if ($_GET['action'] === 'rewrite') {
+        $_POST = $_SESSION['join'];
+        $error['rewrite'] = true;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -94,6 +94,9 @@ if (!empty($_POST)) {
             <?php if (isset($error['email'])) { if ($error['email'] === 'blank') : ?>
             <p class="error">* メールアドレスを入力してください</p>
             <?php endif; } ?>
+            <?php if (isset($error['email'])) {if ($error['email'] === 'duplicate') : ?>
+            <p class="error">* このメールアドレスはすでに登録されています</p>
+            <?php endif;} ?>
           </dd>
           <dt>
             パスワード<span class="required">必須：4文字以上</span>
@@ -124,6 +127,35 @@ if (!empty($_POST)) {
     </div>
 
   </div>
+
+<?php
+// 確認用
+if (isset($image)) {
+  echo '↓$image';
+  var_dump($image);
+}
+
+if (isset($error)) {
+  echo '↓$error';
+  var_dump($error);
+}
+if (isset($record)) {
+  echo '↓$record';
+  var_dump($record);
+}
+
+echo '↓$_FILES';
+var_dump($_FILES);
+
+echo '↓$_GET';
+var_dump($_GET);
+
+echo '↓$_POST';
+var_dump($_POST);
+
+echo '↓$_SESSION';
+var_dump($_SESSION);
+?>
 </body>
 
 </html>
