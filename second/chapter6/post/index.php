@@ -84,7 +84,15 @@ if (isset($_GET['res'])) {
           <?php if(isset($post['message'])) {echo htmlspecialchars($post['message'], ENT_QUOTES);} ?><span class="name">（<?php if (isset($post['name'])) {echo htmlspecialchars($post['name'], ENT_QUOTES);} ?>）</span>
           <span class="reply">[<a href="index.php?res=<?php if (isset($post['id'])) {echo htmlspecialchars($post['id'], ENT_QUOTES);}?>">Re</a>]</span>
         </p>
-        <p class="day"><?php if (isset($post['created'])) {echo htmlspecialchars($post['created'], ENT_QUOTES);} ?></p>
+        <p class="day">
+          <?php if (isset($post['created'])) {echo htmlspecialchars($post['created'], ENT_QUOTES);} ?>
+        </p>
+        <p class="more">
+          <a href="view.php?id=<?php if (isset($post['id'])) {echo htmlspecialchars($post['id'], ENT_QUOTES);} ?>">▼</a>
+        </p>
+        <?php if (isset($post['reply_post_id'])) {if ($post['reply_post_id'] > 0) : ?>
+        <a href="view.php?id=<?php echo htmlspecialchars($post['reply_post_id'], ENT_QUOTES); ?>">返信元のメッセージ</a>
+        <?php endif;} ?>
       </div>
       <?php endforeach; ?>
 
