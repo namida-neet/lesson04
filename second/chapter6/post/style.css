@@ -145,8 +145,9 @@ li {
 	color: #999;
 }
 .reply {
-	font-size: 12px;
+	font-size: 14px;
 }
-.day, .more {
+.day, .more, .motomessage, .delete {
 	display: inline-block;
+	font-size: 14px;
 }

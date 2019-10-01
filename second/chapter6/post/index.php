@@ -50,6 +50,11 @@ if (isset($_GET['res'])) {
 function h($value) {
     return htmlspecialchars($value, ENT_QUOTES);
 }
+
+// 本文内のURLにリンクを設定する
+function makeLink($value) {
+    return mb_ereg_replace("(https?)(://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)", '<a href="\1\2">\1\2</a>', $value);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -70,6 +75,10 @@ function h($value) {
     </div>
     <div id="content">
 
+      <div style="text-align:right;">
+        <a href="logout.php">ログアウト</a>
+      </div>
+
       <form action="" method="post">
         <dl>
           <dt><?php if(isset($member['name'])) {echo h($member['name']);} ?>さん、メッセージを入力してください</dt>
@@ -86,7 +95,7 @@ function h($value) {
       <div class="msg">
         <img src="member_picture/<?php if(isset($post['picture'])) {echo h($post['picture']);} ?>" alt="<?php if(isset($post['name'])) {echo h($post['name']);} ?>" width="48" height="48">
         <p>
-          <?php if(isset($post['message'])) {echo h($post['message']);} ?><span class="name">（<?php if (isset($post['name'])) {echo h($post['name']);} ?>）</span>
+          <?php if(isset($post['message'])) {echo makeLink(h($post['message']));} ?><span class="name">（<?php if (isset($post['name'])) {echo h($post['name']);} ?>）</span>
           <span class="reply">[<a href="index.php?res=<?php if (isset($post['id'])) {echo h($post['id']);}?>">Re</a>]</span>
         </p>
         <p class="day">
@@ -96,8 +105,15 @@ function h($value) {
           <a href="view.php?id=<?php if (isset($post['id'])) {echo h($post['id']);} ?>">▼</a>
         </p>
         <?php if (isset($post['reply_post_id'])) {if ($post['reply_post_id'] > 0) : ?>
-        <a href="view.php?id=<?php echo h($post['reply_post_id']); ?>">返信元のメッセージ</a>
+        <p class="motomessage">
+          <a href="view.php?id=<?php echo h($post['reply_post_id']); ?>">返信元のメッセージ</a>
+        </p>
         <?php endif;} ?>
+        <?php if ($_SESSION['id'] === $post['member_id']) : ?>
+        <p class="delete">
+          [<a href="delete.php?id=<?php if (isset($post['id'])) {echo h($post['id']);} ?>" style="color:#f33;">削除</a>]
+        </p>
+        <?php endif; ?>
       </div>
       <?php endforeach; ?>
 
