@@ -34,7 +34,28 @@ if (!empty($_POST)) {
 }
 
 // 投稿を取得する
-$posts = $db->query('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id ORDER BY p.created DESC');
+if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+echo '★$page';
+var_dump($page);
+
+// 最終ページを取得する
+$counts = $db->query('SELECT COUNT(*) AS cnt FROM posts');
+$cnt = $counts->fetch();
+$maxPage = ceil($cnt['cnt'] / 5);
+echo '★$maxPage';
+var_dump($maxPage);
+
+$start = ($page - 1) * 5;
+echo '★$start';
+var_dump($start);
+
+$posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id ORDER BY p.created DESC LIMIT ?, 5');
+$posts->bindParam(1, $start, PDO::PARAM_INT);
+$posts->execute();
 
 // 返信の場合
 if (isset($_GET['res'])) {
@@ -91,7 +112,7 @@ function makeLink($value) {
           <input type="submit" value="投稿する">
         </div>
       </form>
-      <?php foreach ($posts as $post) : ?>
+      <?php if (isset($posts)) {foreach ($posts as $post) : ?>
       <div class="msg">
         <img src="member_picture/<?php if(isset($post['picture'])) {echo h($post['picture']);} ?>" alt="<?php if(isset($post['name'])) {echo h($post['name']);} ?>" width="48" height="48">
         <p>
@@ -115,7 +136,20 @@ function makeLink($value) {
         </p>
         <?php endif; ?>
       </div>
-      <?php endforeach; ?>
+      <?php endforeach;} ?>
+
+      <ul class="paging">
+        <?php if ($page > 1) : ?>
+        <li><a href="index.php?page=<?php echo ($page - 1); ?>">前のページへ</a></li>
+        <?php else : ?>
+        <li>前のページへ</li>
+        <?php endif; ?>
+        <?php if ($page < $maxPage) : ?>
+        <li><a href="index.php?page=<?php echo ($page + 1); ?>">次のページへ</a></li>
+        <?php else : ?>
+        <li>次のページへ</li>
+        <?php endif; ?>
+      </ul>
 
     </div>
   </div>
