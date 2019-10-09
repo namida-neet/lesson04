@@ -2,10 +2,16 @@
 session_start();
 require('dbconnect.php');
 
+function h($str) {
+  echo htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
+
 if (empty($_REQUEST['id'])) {
   header('Location: index.php');
   exit();
 }
+
+$page = $_REQUEST['page'];
 
 $posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id AND p.id=?');
 $posts->execute(array(
@@ -33,14 +39,14 @@ $posts->execute(array(
     <div id="content">
     <?php if ($post = $posts->fetch()): ?>
       <div class="msg">
-        <img src="member_picture/<?php print(htmlspecialchars($post['picture'], ENT_QUOTES)); ?>" />
-        <p><?php print(htmlspecialchars($post['message'], ENT_QUOTES)); ?><span class="name">（<?php print(htmlspecialchars($post['name'], ENT_QUOTES)); ?>）</span></p>
-        <p class="day"><?php print(htmlspecialchars($post['created'], ENT_QUOTES)); ?></p>
+        <img src="member_picture/<?php h($post['picture']); ?>" />
+        <p><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span></p>
+        <p class="day"><?php h($post['created']); ?></p>
       </div>
     <?php else: ?>
       <p>この投稿は削除されたか、URLが間違っています</p>
     <?php endif; ?>
-    <p><a class="cancel-button" href="index.php">Return</a></p>
+    <p><a class="cancel-button" href="index.php?page=<?php h($page); ?>">Return</a></p>
     </div>
   </div>
   <div class="var_dump">

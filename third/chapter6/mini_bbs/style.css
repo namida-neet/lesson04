@@ -81,11 +81,14 @@ pre,code,kbd,samp,tt {
   line-height:100%;
 }
 
-/* --------↓ここからまじめにかく-------- */
-
+/* --------↓ここからかく-------- */
 body {
   background: #3C2B5B;
   color: #333;
+}
+
+input, button, textarea {
+  appearance: none;
 }
 
 #wrap {
@@ -102,7 +105,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding: 20px 28px;
+  padding: 20px 40px;
   border-radius: 4px;
   background: #3C2B5B;
   color: #fff;
@@ -120,16 +123,18 @@ h1 {
   color: #fff;
   text-decoration: none;
 }
+
 .header-button a:focus {
   outline: 0;
-  border: 1px solid #E5A83F;
+  border: 3px solid #E5A83F;
+  color: #E5A83F;
 }
 
 /* ↓どこにあるんだ */
-h2 {
+/* h2 {
   margin-bottom: 0.5em;
   font-weight: bold;
-}
+} */
 
 #content {
   position: relative;
@@ -138,7 +143,7 @@ h2 {
   padding: 40px;
   border-radius: 4px;
   background: #fafafa;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 * html #content {
@@ -171,7 +176,7 @@ input[type="text"], input[type="password"] {
 
 input:focus {
   outline: 0;
-  border: 1px solid #E5A83F;
+  border: 3px solid #E5A83F;
 }
 
 .required {
@@ -228,7 +233,7 @@ input:focus {
 
 .cancel-button:focus {
   outline: 0;
-  border: 1px solid #E5A83F;
+  border: 3px solid #E5A83F;
 }
 
 .thankyou-wrap {
@@ -258,7 +263,7 @@ input:focus {
 
 .thankyou-login-button a:focus {
   outline: 0;
-  border: 1px solid #E5A83F;
+  border: 3px solid #E5A83F;
 }
 
 /* =============================================
@@ -282,8 +287,8 @@ BBS
 }
 
 .user-name {
-  margin-left: 16px;
-  border-bottom: 2px solid #E5A83F;
+  margin-left: 6px;
+  padding: 4px 8px;
 }
 
 .bbs-form {
@@ -292,22 +297,28 @@ BBS
 
 .bbs-textarea {
   padding: 8px;
-  border: 1px solid #3C2B5B;
+  border: 2px solid #3C2B5B;
   border-radius: 4px;
 }
 
 .bbs-textarea:focus {
   outline: 0;
-  border: 1px solid #E5A83F;
+  border: 2px solid #E5A83F;
+  box-shadow: inner 0 0 4px rgba(0, 0, 0, 0.2);
 }
 
 .submit-button.-bbs-message {
-  margin: 0 0 4px 16px;
+  margin: 0 0 3px 16px;
+  background: #3C2B5B;
   vertical-align: text-bottom;
 }
 
 .name {
   font-size: 14px;
+}
+
+.post-number {
+  font-size: 12px;
 }
 
 .reaction-tools {
@@ -357,14 +368,18 @@ Utility
   bottom: 16px;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 .var_dump {
   margin-top: 32px;
   padding: 16px;
   background: #fff;
 }
 
-.uppercase {
-  text-transform: uppercase;
+pre {
+  margin-bottom: 16px;
 }
 
 /* --------------------------------
@@ -396,7 +411,7 @@ li {
 }
 
 .paging {
-  margin-top: 10px;
+  margin-top: 32px;
   font-size: 16px;
   text-align: center;
 }
@@ -404,6 +419,7 @@ li {
 .paging li {
   display: inline;
   list-style: none;
+  font-size: 14px;
 }
 
 .error {
@@ -426,7 +442,7 @@ li {
   float: left;
   width: 48px;
   height: 48px;
-  margin-right: 5px;
+  margin-right: 16px;
   border-radius: 50%;
 }
 .msg p {
