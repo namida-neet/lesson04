@@ -193,11 +193,32 @@ input:focus {
 .submit-button {
   padding: 8px 32px;
   border-style: none;
-  /* border: 1px solid #aaa; */
   border-radius: 4px;
   background: #777;
   color: #fafafa;
   font-size: 20px;
+}
+.submit-button.-ok {
+  padding: 8px 48px;
+  background: #3C2B5B;
+  cursor: pointer;
+}
+
+.cancel-button {
+  display: inline-block;
+  margin-left: 16px;
+  padding: 7px 32px;
+  border-style: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #777;
+  font-size: 20px;
+  text-decoration: none;
+}
+.cancel-button:focus {
+  outline: 0;
+  border: 1px solid #E5A83F;
 }
 
 /* #foot {

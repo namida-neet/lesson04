@@ -149,26 +149,26 @@ if (isset($_REQUEST['action'])) {
     }
     ?>
   </div>
-<script type="text/javascript">
- $(function() {
-     $('#icon-picture').css({
-         'position': 'absolute',
-         'top': '-9999px'
-     }).change(function() {
-         var val = $(this).val();
-         var path = val.replace(/\\/g, '/');
-         var match = path.lastIndexOf('/');
-    $('#filename').css("display","inline-block");
-         $('#filename').val(match !== -1 ? val.substring(match + 1) : val);
-     });
-     $('#filename').bind('keyup, keydown, keypress', function() {
-         return false;
-     });
-     $('#filename, #icon-upload-btn').click(function() {
-         $('#icon-picture').trigger('click');
-     });
- });
-</script>
+  <script type="text/javascript">
+  $(function() {
+      $('#icon-picture').css({
+          'position': 'absolute',
+          'top': '-9999px'
+      }).change(function() {
+          var val = $(this).val();
+          var path = val.replace(/\\/g, '/');
+          var match = path.lastIndexOf('/');
+      $('#filename').css("display","inline-block");
+          $('#filename').val(match !== -1 ? val.substring(match + 1) : val);
+      });
+      $('#filename').bind('keyup, keydown, keypress', function() {
+          return false;
+      });
+      $('#filename, #icon-upload-btn').click(function() {
+          $('#icon-picture').trigger('click');
+      });
+  });
+  </script>
 </body>
 
 </html>
