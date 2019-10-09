@@ -113,14 +113,14 @@ h1 {
   font-weight: bold;
 }
 
-.head__btn a {
+.header-button a {
   padding: 8px 16px;
   border: 1px solid #fff;
   border-radius: 4px;
   color: #fff;
   text-decoration: none;
 }
-.head__btn a:focus {
+.header-button a:focus {
   outline: 0;
   border: 1px solid #E5A83F;
 }
@@ -159,6 +159,10 @@ dd {
   margin-bottom: 32px;
 }
 
+/* =============================================
+Sign up
+============================================= */
+
 input[type="text"], input[type="password"] {
   padding: 8px;
   border: 1px solid #ccc;
@@ -188,6 +192,7 @@ input:focus {
   background: #fff;
   cursor: pointer;
 }
+
 #filename {
   background: none;
   box-shadow: none;
@@ -220,6 +225,7 @@ input:focus {
   font-size: 20px;
   text-decoration: none;
 }
+
 .cancel-button:focus {
   outline: 0;
   border: 1px solid #E5A83F;
@@ -232,12 +238,15 @@ input:focus {
   align-items: center;
   height: 400px;
 }
+
 .thankyou {
   font-size: 24px;
 }
+
 .thankyou-login-button {
   margin-top: 48px;
 }
+
 .thankyou-login-button a {
   padding: 16px 32px;
   border-radius: 4px;
@@ -246,9 +255,55 @@ input:focus {
   font-size: 24px;
   text-decoration: none;
 }
+
 .thankyou-login-button a:focus {
   outline: 0;
   border: 1px solid #E5A83F;
+}
+
+/* =============================================
+BBS
+============================================= */
+
+.post-area {
+  padding-left: 16px;
+  border-left: 8px solid #3C2B5B;
+}
+.user-info {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.user-icon img {
+  border-radius: 50%;
+  vertical-align: bottom;
+}
+
+.user-name {
+  margin-left: 16px;
+  border-bottom: 2px solid #E5A83F;
+}
+
+.bbs-form {
+  margin-bottom: 16px;
+}
+
+.bbs-textarea {
+  padding: 8px;
+  border: 1px solid #3C2B5B;
+  border-radius: 4px;
+}
+
+.bbs-textarea:focus {
+  outline: 0;
+  border: 1px solid #E5A83F;
+}
+
+.submit-button.-bbs-message {
+  margin: 0 0 4px 16px;
+  vertical-align: text-bottom;
 }
 
 /* #foot {
@@ -298,7 +353,7 @@ li {
 
 .msg {
   clear: both;
-  padding: 10px 0;
+  padding: 10px 24px;
   border-top: 1px solid #ccc;
 }
 .msg img {
@@ -318,7 +373,9 @@ li {
   color: #999;
 }
 
-/* Utility */
+/* --------------------------------
+Utility
+-------------------------------- */
 .hidden {
   display: none;
 }

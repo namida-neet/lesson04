@@ -53,7 +53,7 @@ if (!empty($_POST)) {
   <div id="wrap">
     <div id="head">
       <h1>Login</h1>
-      <p class="head__btn"><a href="join/">Sign up</a></p>
+      <p class="header-button"><a href="join/">Sign up</a></p>
     </div>
     <div id="content">
       <?php if (isset($error['login'])) : ?>

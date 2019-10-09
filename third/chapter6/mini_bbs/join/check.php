@@ -41,7 +41,7 @@ if (!empty($_POST)) {
   <div id="wrap">
     <div id="head">
       <h1 class="uppercase">Sign up</h1>
-      <p class="head__btn"><a href="../login.php"">Login</a></p>
+      <p class="header-button"><a href="../login.php"">Login</a></p>
     </div>
 
     <div id="content">

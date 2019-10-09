@@ -2,6 +2,10 @@
 session_start();
 require('dbconnect.php');
 
+function h($str) {
+  echo htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
+
 if (isset($_SESSION['id']) && $_SESSION['time'] + 60 * 10 > time()) {
   $_SESSION['time'] = time();
 
@@ -68,7 +72,7 @@ if (isset($_REQUEST['res'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>掲示板</title>
+  <title>BBS</title>
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -76,36 +80,36 @@ if (isset($_REQUEST['res'])) {
 <body>
   <div id="wrap">
     <div id="head">
-      <h1>掲示板</h1>
-      <div class="logout"><a href="logout.php">ログアウト</a></div>
+      <h1>BBS</h1>
+      <div class="header-button""><a href="logout.php">Logout</a></div>
     </div>
     <div id="content">
-      <form action="" method="post">
-        <dl>
-          <dt><?php print(htmlspecialchars($member['name'], ENT_QUOTES)); ?>さん、メッセージをどうぞ</dt>
-          <dd>
-            <textarea name="message" cols="50" rows="5"><?php if (isset($message)) {print(htmlspecialchars($message, ENT_QUOTES));} ?></textarea>
-            <input type="hidden" name="reply_post_id" value="<?php if (isset($_REQUEST['res'])) {print(htmlspecialchars($_REQUEST['res'], ENT_QUOTES));} ?>" />
-          </dd>
-        </dl>
-        <div>
-          <p>
-            <input class="button" type="submit" value="投稿する" />
+      <div class="post-area">
+        <div class="user-info">
+          <p class="user-icon">
+            <img src="member_picture/<?php h($member['picture']); ?>" width="48" height="48" alt="<?php h($member['name']); ?>のアイコン" />
+          </p>
+          <p class="user-name">
+            <?php h($member['name']); ?>
           </p>
         </div>
-      </form>
+        <form class="bbs-form" action="" method="post">
+          <textarea class="bbs-textarea" name="message" cols="50" rows="5"><?php if (isset($message)) {h($message);} ?></textarea>
+          <input type="hidden" name="reply_post_id" value="<?php if (isset($_REQUEST['res'])) {h($_REQUEST['res']);} ?>" /><input class="submit-button -bbs-message" type="submit" value="post"" />
+        </form>
+      </div>
 
       <?php foreach ($posts as $post) : ?>
         <div class="msg">
-          <img src="member_picture/<?php print(htmlspecialchars($post['picture'], ENT_QUOTES)); ?>" width="48" height="48" alt="<?php print(htmlspecialchars($post['name'], ENT_QUOTES)); ?>のアイコン" />
-          <p><?php print(htmlspecialchars($post['message'], ENT_QUOTES)); ?><span class="name">（<?php print(htmlspecialchars($post['name'], ENT_QUOTES)); ?>）</span>[<a href="index.php?res=<?php print(htmlspecialchars($post['id'], ENT_QUOTES)); ?>">Re</a>]</p>
-          <p class="day"><a href="view.php?id=<?php print(htmlspecialchars($post['id'], ENT_QUOTES)); ?>"><?php print(htmlspecialchars($post['created'], ENT_QUOTES)); ?></a>
+          <img src="member_picture/<?php h($post['picture']); ?>" width="48" height="48" alt="<?php h($post['name']); ?>のアイコン" />
+          <p><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span>[<a href="index.php?res=<?php h($post['id']); ?>">Re</a>]</p>
+          <p class="day"><a href="view.php?id=<?php h($post['id']); ?>"><?php h($post['created']); ?></a>
             <?php if ($post['reply_message_id'] > 0) : ?>
-              <a href="view.php?id=<?php print(htmlspecialchars($post['reply_message_id'], ENT_QUOTES)); ?>">
+              <a href="view.php?id=<?php h($post['reply_message_id']); ?>">
                 返信元のメッセージ</a>
             <?php endif; ?>
             <?php if ($_SESSION['id'] === $post['member_id']) : ?>
-              [<a href="delete.php?id=<?php print(htmlspecialchars($post['id'], ENT_QUOTES)); ?>" style="color: #F33;">削除</a>]
+              [<a href="delete.php?id=<?php h($post['id']); ?>" style="color: #F33;">削除</a>]
             <?php endif; ?>
           </p>
         </div>
@@ -125,7 +129,8 @@ if (isset($_REQUEST['res'])) {
           <?php endif; ?>
       </ul>
     </div>
-    <!-- 確認用 -->
+  </div>
+  <div class="var_dump">
     <?php
     echo '★$_POST';
     var_dump($_POST);
