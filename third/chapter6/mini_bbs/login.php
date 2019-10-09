@@ -53,7 +53,7 @@ if (!empty($_POST)) {
   <div id="wrap">
     <div id="head">
       <h1>Login</h1>
-      <p class="logout"><a href="join/">Sign up</a></p>
+      <p class="head__btn"><a href="join/">Sign up</a></p>
     </div>
     <div id="content">
       <?php if (isset($error['login'])) : ?>
@@ -66,11 +66,11 @@ if (!empty($_POST)) {
       <?php endif; ?>
       <form action="" method="post">
         <dl>
-          <dt>email address</dt>
+          <dt class="uppercase">email address</dt>
           <dd>
             <input type="text" name="email" size="35" maxlength="255" value="<?php if (isset($email)) {h($email);} ?>" />
           </dd>
-          <dt>set a password</dt>
+          <dt class="uppercase">set a password</dt>
           <dd>
             <input type="password" name="password" size="35" maxlength="255" value="" />
           </dd>
@@ -81,7 +81,7 @@ if (!empty($_POST)) {
           </dd>
         </dl>
         <div>
-          <input class="button" type="submit" value="Login" />
+          <input class="submit-button" type="submit" value="Login" />
         </div>
       </form>
       <p class="copy"><img src="images/txt_copyright.png" width="136" height="15" alt="(C) H2O Space. MYCOM" /></p>

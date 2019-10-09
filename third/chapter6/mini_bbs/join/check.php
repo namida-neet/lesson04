@@ -2,6 +2,10 @@
 session_start();
 require('../dbconnect.php');
 
+function h($str) {
+  echo htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
+
 if (!isset($_SESSION['join'])) {
   header('Location: index.php');
   exit();
@@ -46,11 +50,11 @@ if (!empty($_POST)) {
         <dl>
           <dt class="uppercase">name</dt>
           <dd>
-            <?php print(htmlspecialchars($_SESSION['join']['name'], ENT_QUOTES)); ?>
+            <?php h($_SESSION['join']['name']); ?>
           </dd>
           <dt class="uppercase">email address</dt>
           <dd>
-            <?php print(htmlspecialchars($_SESSION['join']['email'], ENT_QUOTES)); ?>
+            <?php h($_SESSION['join']['email']); ?>
           </dd>
           <dt class="uppercase">password</dt>
           <dd>
@@ -59,7 +63,7 @@ if (!empty($_POST)) {
           <dt class="uppercase">icon</dt>
           <dd>
             <?php if ($_SESSION['join']['image'] !== '') : ?>
-              <img src="../member_picture/<?php print(htmlspecialchars($_SESSION['join']['image'], ENT_QUOTES)); ?>" alt="">
+              <img src="../member_picture/<?php h($_SESSION['join']['image']); ?>" alt="">
             <?php endif; ?>
           </dd>
         </dl>

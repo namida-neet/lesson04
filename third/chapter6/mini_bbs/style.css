@@ -120,6 +120,10 @@ h1 {
   color: #fff;
   text-decoration: none;
 }
+.head__btn a:focus {
+  outline: 0;
+  border: 1px solid #E5A83F;
+}
 
 /* ↓どこにあるんだ */
 h2 {
@@ -242,6 +246,11 @@ input:focus {
   font-size: 24px;
   text-decoration: none;
 }
+.thankyou-login-button a:focus {
+  outline: 0;
+  border: 1px solid #E5A83F;
+}
+
 /* #foot {
   width: 762px;
   margin: 0 auto;
