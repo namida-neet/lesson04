@@ -2,7 +2,7 @@
 session_start();
 require('dbconnect.php');
 
-if (isset($_SESSION['id']) && $_SESSION['time'] + 60 > time()) {
+if (isset($_SESSION['id']) && $_SESSION['time'] + 60 * 10 > time()) {
   $_SESSION['time'] = time();
 
   $members = $db->prepare('SELECT * FROM members WHERE id=?');
@@ -68,7 +68,7 @@ if (isset($_REQUEST['res'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>ひとこと掲示板</title>
+  <title>掲示板</title>
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -76,10 +76,10 @@ if (isset($_REQUEST['res'])) {
 <body>
   <div id="wrap">
     <div id="head">
-      <h1>ひとこと掲示板</h1>
+      <h1>掲示板</h1>
+      <div class="logout"><a href="logout.php">ログアウト</a></div>
     </div>
     <div id="content">
-      <div style="text-align: right"><a href="logout.php">ログアウト</a></div>
       <form action="" method="post">
         <dl>
           <dt><?php print(htmlspecialchars($member['name'], ENT_QUOTES)); ?>さん、メッセージをどうぞ</dt>
@@ -90,7 +90,7 @@ if (isset($_REQUEST['res'])) {
         </dl>
         <div>
           <p>
-            <input type="submit" value="投稿する" />
+            <input class="button" type="submit" value="投稿する" />
           </p>
         </div>
       </form>
@@ -117,6 +117,7 @@ if (isset($_REQUEST['res'])) {
           <?php else: ?>
             <li>前のページへ</li>
           <?php endif; ?>
+          ｜
           <?php if ($page < $maxPage): ?>
             <li><a href="index.php?page=<?php if (isset($page)) {print($page + 1);} ?>">次のページへ</a></li>
           <?php else: ?>
