@@ -221,6 +221,27 @@ input:focus {
   border: 1px solid #E5A83F;
 }
 
+.thankyou-wrap {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+.thankyou {
+  font-size: 24px;
+}
+.thankyou-login-button {
+  margin-top: 48px;
+}
+.thankyou-login-button a {
+  padding: 16px 32px;
+  border-radius: 4px;
+  background: #3C2B5B;
+  color: #fff;
+  font-size: 24px;
+  text-decoration: none;
+}
 /* #foot {
   width: 762px;
   margin: 0 auto;
