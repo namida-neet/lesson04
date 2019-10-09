@@ -215,7 +215,7 @@ input:focus {
 
 .cancel-button {
   display: inline-block;
-  margin-left: 16px;
+  margin-left: 24px;
   padding: 7px 32px;
   border-style: none;
   border: 1px solid #ccc;

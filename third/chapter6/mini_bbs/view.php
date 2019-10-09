@@ -19,7 +19,7 @@ $posts->execute(array(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>掲示板</title>
+  <title>BBS</title>
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -27,11 +27,10 @@ $posts->execute(array(
 <body>
   <div id="wrap">
     <div id="head">
-      <h1>掲示板</h1>
+      <h1>BBS</h1>
+      <div class="header-button""><a href="logout.php">Logout</a></div>
     </div>
     <div id="content">
-      <p>&laquo;<a href="index.php">一覧にもどる</a></p>
-
     <?php if ($post = $posts->fetch()): ?>
       <div class="msg">
         <img src="member_picture/<?php print(htmlspecialchars($post['picture'], ENT_QUOTES)); ?>" />
@@ -41,8 +40,10 @@ $posts->execute(array(
     <?php else: ?>
       <p>この投稿は削除されたか、URLが間違っています</p>
     <?php endif; ?>
+    <p><a class="cancel-button" href="index.php">Return</a></p>
     </div>
-    <!-- 確認用 -->
+  </div>
+  <div class="var_dump">
     <?php
     echo '★$_POST';
     var_dump($_POST);
