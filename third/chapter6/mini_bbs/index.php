@@ -102,16 +102,23 @@ if (isset($_REQUEST['res'])) {
       <?php foreach ($posts as $post) : ?>
         <div class="msg">
           <img src="member_picture/<?php h($post['picture']); ?>" width="48" height="48" alt="<?php h($post['name']); ?>のアイコン" />
-          <p><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span>[<a href="index.php?res=<?php h($post['id']); ?>">Re</a>]</p>
-          <p class="day"><a href="view.php?id=<?php h($post['id']); ?>"><?php h($post['created']); ?></a>
-            <?php if ($post['reply_message_id'] > 0) : ?>
-              <a href="view.php?id=<?php h($post['reply_message_id']); ?>">
-                返信元のメッセージ</a>
-            <?php endif; ?>
-            <?php if ($_SESSION['id'] === $post['member_id']) : ?>
-              [<a href="delete.php?id=<?php h($post['id']); ?>" style="color: #F33;">削除</a>]
-            <?php endif; ?>
-          </p>
+          <p><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span></p>
+          <div class="reaction-tools">
+            <p class="day"><a href="view.php?id=<?php h($post['id']); ?>"><?php h($post['created']); ?></a>
+              <?php if ($post['reply_message_id'] > 0) : ?>
+                <a href="view.php?id=<?php h($post['reply_message_id']); ?>">
+                  返信元のメッセージ</a>
+              <?php endif; ?>
+              <p class="res-button">
+                <a href="index.php?res=<?php h($post['id']); ?>">Re</a>
+              </p>
+              <?php if ($_SESSION['id'] === $post['member_id']) : ?>
+                <p class="delete-button">
+                  <a href="delete.php?id=<?php h($post['id']); ?>">削除</a>
+                </p>
+              <?php endif; ?>
+            </p>
+          </div>
         </div>
       <?php endforeach; ?>
 

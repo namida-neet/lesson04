@@ -306,6 +306,71 @@ BBS
   vertical-align: text-bottom;
 }
 
+.name {
+  font-size: 14px;
+}
+
+.reaction-tools {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.day a {
+  color: #777;
+  font-size: 14px;
+}
+
+.res-button a, .delete-button a {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border-style: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.res-button a {
+  background: #aaa;
+}
+
+.delete-button a {
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #BB1850
+}
+
+/* --------------------------------
+Utility
+-------------------------------- */
+.hidden {
+  display: none;
+}
+
+.mini {
+  font-size: 14px;
+}
+
+.copy {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+
+.var_dump {
+  margin-top: 32px;
+  padding: 16px;
+  background: #fff;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* --------------------------------
+ここから下はあまりいじりたくない
+-------------------------------- */
+
 /* #foot {
   width: 762px;
   margin: 0 auto;
@@ -332,6 +397,7 @@ li {
 
 .paging {
   margin-top: 10px;
+  font-size: 16px;
   text-align: center;
 }
 
@@ -367,35 +433,8 @@ li {
   margin: 0;
   padding-top: 5px;
 }
-.msg .day,
+/* .msg .day,
 .msg .day a {
   font-size: 80%;
   color: #999;
-}
-
-/* --------------------------------
-Utility
--------------------------------- */
-.hidden {
-  display: none;
-}
-
-.mini {
-  font-size: 14px;
-}
-
-.copy {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-}
-
-.var_dump {
-  margin-top: 32px;
-  padding: 16px;
-  background: #fff;
-}
-
-.uppercase {
-  text-transform: uppercase;
-}
+} */
