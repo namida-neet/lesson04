@@ -58,6 +58,7 @@ if (!empty($_POST)) {
       <?php if (isset($error['login']) && $error['login'] === 'failed') : ?>
       <p class="error">ログインに失敗しました</p>
       <?php endif; ?>
+
       <form class="form" action="" method="post">
         <p class="label-name uppercase"><label for="email">email address</label></p>
         <input type="text" name="email" id="email" size="35" maxlength="255" value="<?php if (isset($email)) { h($email); } ?>">
@@ -75,6 +76,7 @@ if (!empty($_POST)) {
           <input class="submit-button -login" type="submit" value="Login" />
         </div>
       </form>
+
       <p class="copy">&copy; H2O Space. MYCOM</p>
     </div>
   </div>

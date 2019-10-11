@@ -321,7 +321,10 @@ BBS
 
 .submit-button.-bbs-message {
   margin: 0 0 3px 16px;
+  padding: 8px 32px;
   background: #3C2B5B;
+  color: #fafafa;
+  font-size: 20px;
   vertical-align: text-bottom;
 }
 
@@ -339,6 +342,11 @@ BBS
 }
 
 .day a {
+  color: #777;
+  font-size: 14px;
+}
+.reply_message a {
+  padding-left: 8px;
   color: #777;
   font-size: 14px;
 }
