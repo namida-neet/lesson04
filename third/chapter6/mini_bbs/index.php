@@ -45,6 +45,7 @@ $page = min($page, $maxPage);
 
 $start = ($page - 1) * 5;
 
+
 $posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id ORDER BY p.created DESC LIMIT ?,5');
 $posts->bindParam(1, $start, PDO::PARAM_INT);
 $posts->execute();
@@ -59,6 +60,17 @@ if (isset($_REQUEST['res'])) {
     $table = $response->fetch();
     $message = '@' . $table['name'] . ' ' . $table['message'] . "\n" . '> ';
 }
+
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+// いいねの数を数える
+// $counts = $db->prepare('SELECT p.id, f.post_id, COUNT(*) AS favCnt FROM posts p, favorites f WHERE p.id = f.post_id AND f.post_id=?');
+// $counts->execute(array(
+//     1,
+// ));
+// $count = $counts->fetch();
+
+// ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにいいねボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -68,8 +80,8 @@ if (isset($_REQUEST['res'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>BBS</title>
-
   <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/ccf5e700a2.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -99,7 +111,7 @@ if (isset($_REQUEST['res'])) {
       <?php foreach ($posts as $post) : ?>
       <div class="msg">
         <img src="member_picture/<?php h($post['picture']); ?>" width="48" height="48" alt="<?php h($post['name']); ?>のアイコン">
-        <p><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span><span class="post-number">[No.<?php h($post['id']); ?>]</span></p>
+        <p class="post-message"><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span><span class="post-number">[No.<?php h($post['id']); ?>]</span></p>
 
         <div class="reaction-tools">
 
@@ -117,14 +129,24 @@ if (isset($_REQUEST['res'])) {
             <a href="index.php?res=<?php h($post['id']); ?>">Re</a>
           </p>
 
-<!-- ↓↓↓ここにいいねボタンについて書いていきます↓↓↓ -->
+<!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
 
+          <p class="favo">
+            <a href="fav.php?usr=<?php h($member['id']); ?>&id=<?php h($post['id']); ?>">
+              <i class="far fa-heart"></i>
+              <!-- <i class="fas fa-heart"></i> -->
+            </a>
+          </p>
+          <!-- <p class="favCount">
+            <?php echo $count['favCnt']; ?>
+          </p> -->
 
+        <!-- 点数化したい↓ -->
+        <!-- <i class="far fa-smile"></i>
+        <i class="far fa-laugh-beam"></i>
+        <i class="far fa-grin-squint-tears"></i> -->
 
-
-
-
-<!-- ↑↑↑ここにいいねボタンについて書いていきます↑↑↑ -->
+<!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにいいねボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
 
           <?php if ($_SESSION['id'] === $post['member_id']): ?>
           <p class="delete-button">
@@ -146,7 +168,7 @@ if (isset($_REQUEST['res'])) {
         <li>｜<a class="uppercase" href="index.php">top</a>｜</li>
 
         <?php if ($page < $maxPage): ?>
-        <li><a href="index.php?page=<?php if (isset($page)) {print($page + 1);} ?>">次のページへ</a></li>
+        <li><a href="index.php?page=<?php print($page + 1); ?>">次のページへ</a></li>
         <?php else: ?>
         <li>次のページへ</li>
         <?php endif; ?>
