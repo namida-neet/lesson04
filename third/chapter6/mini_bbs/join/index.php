@@ -79,14 +79,14 @@ if (isset($_REQUEST['action'])) {
     </div><!-- #head -->
 
     <div id="content">
-      <form class="signup-form" action="" method="post" enctype="multipart/form-data">
-        <p class="signup-form__label-name uppercase"><label for="name">name</label><span class="required">mandatory field</span></p>
+      <form class="form" action="" method="post" enctype="multipart/form-data">
+        <p class="label-name uppercase"><label for="name">name</label><span class="required">mandatory field</span></p>
         <input type="text" name="name" id="name" size="35" maxlength="255" value="<?php if (isset($_POST['name'])) { h($_POST['name']); } ?>">
         <?php if (isset($error['name']) && $error['name'] === 'blank'): ?>
         <p class="error">* ニックネームを入力してください</p>
         <?php endif; ?>
 
-        <p class="signup-form__label-name uppercase"><label for="email">email address</label><span class="required">mandatory field</span></p>
+        <p class="label-name uppercase"><label for="email">email address</label><span class="required">mandatory field</span></p>
         <input type="text" name="email" id="email" size="35" maxlength="255" value="<?php if (isset($_POST['email'])) { h($_POST['email']); } ?>">
         <?php if (isset($error['email']) && $error['email'] === 'blank'): ?>
         <p class="error">* メールアドレスを入力してください</p>
@@ -95,7 +95,7 @@ if (isset($_REQUEST['action'])) {
         <p class="error">* このメールアドレスはすでに登録されています</p>
         <?php endif; ?>
 
-        <p class="signup-form__label-name uppercase"><label for="password">password</label><span class="required">mandatory field</span></p>
+        <p class="label-name uppercase"><label for="password">password</label><span class="required">mandatory field</span></p>
         <input type="password" name="password" id="password" size="10" maxlength="20" value="<?php if (isset($_POST['password'])) { h($_POST['password']); } ?>">
         <?php if (isset($error['password']) && $error['password'] === 'blank'): ?>
         <p class="error">* パスワードを入力してください</p>
@@ -104,7 +104,7 @@ if (isset($_REQUEST['action'])) {
         <p class="error">* パスワードは4文字以上で入力してください</p>
         <?php endif; ?>
 
-        <p class="signup-form__label-name uppercase"><label for="image">icon</label></p>
+        <p class="label-name uppercase"><label for="image">icon</label></p>
         <input type="file" name="image" id="image" size="35">
         <?php if (isset($error['image']) && $error['image'] === 'type') : ?>
         <p class="error">* 画像を指定してください</p>

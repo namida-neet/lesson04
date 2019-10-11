@@ -1,10 +1,7 @@
 <?php
 session_start();
 require('dbconnect.php');
-
-function h($str) {
-  echo htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-}
+require('htmlspecialchars.php');
 
 if (isset($_COOKIE['email']) && $_COOKIE['email'] !== '') {
     $email = $_COOKIE['email'];
@@ -39,10 +36,8 @@ if (!empty($_POST)) {
     }
 }
 ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="ja">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" type="text/css" href="style.css" />
@@ -55,36 +50,32 @@ if (!empty($_POST)) {
       <h1>Login</h1>
       <p class="header-button"><a href="join/">Sign up</a></p>
     </div>
+
     <div id="content">
-      <?php if (isset($error['login'])) : ?>
-        <?php if ($error['login'] === 'blank') : ?>
-          <p class="error">メールアドレスとパスワードを入力してください</p>
-        <?php endif; ?>
-        <?php if ($error['login'] === 'failed') : ?>
-          <p class="error">ログインに失敗しました</p>
-        <?php endif; ?>
+      <?php if (isset($error['login']) && $error['login'] === 'blank') : ?>
+      <p class="error">メールアドレスとパスワードを入力してください</p>
       <?php endif; ?>
-      <form action="" method="post">
-        <dl>
-          <dt class="uppercase">email address</dt>
-          <dd>
-            <input type="text" name="email" size="35" maxlength="255" value="<?php if (isset($email)) {h($email);} ?>" />
-          </dd>
-          <dt class="uppercase">set a password</dt>
-          <dd>
-            <input type="password" name="password" size="35" maxlength="255" value="" />
-          </dd>
-          <dt class="hidden">ログイン情報の記録</dt>
-          <dd class="mini">
-            <input id="save" type="checkbox" name="save" value="on">
-            <label for="save">Stey signed in</label>
-          </dd>
-        </dl>
+      <?php if (isset($error['login']) && $error['login'] === 'failed') : ?>
+      <p class="error">ログインに失敗しました</p>
+      <?php endif; ?>
+      <form class="form" action="" method="post">
+        <p class="label-name uppercase"><label for="email">email address</label></p>
+        <input type="text" name="email" id="email" size="35" maxlength="255" value="<?php if (isset($email)) { h($email); } ?>">
+
+        <p class="label-name uppercase"><label for="password">set a password</label></p>
+        <input type="password" name="password" id="password" size="35" maxlength="255" value="">
+
+        <p class="hidden">ログイン情報の記録</p>
+        <p class="stey-signed-in mini">
+          <input id="save" type="checkbox" name="save" value="on">
+          <label for="save">Stey signed in</label>
+        </p>
+
         <div>
-          <input class="submit-button" type="submit" value="Login" />
+          <input class="submit-button -login" type="submit" value="Login" />
         </div>
       </form>
-      <p class="copy"><img src="images/txt_copyright.png" width="136" height="15" alt="(C) H2O Space. MYCOM" /></p>
+      <p class="copy">&copy; H2O Space. MYCOM</p>
     </div>
   </div>
   <div class="var_dump">

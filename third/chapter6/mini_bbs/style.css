@@ -148,7 +148,7 @@ h1 {
 dl {
   margin-bottom: 48px;
 }
-.signup-form {
+.form {
   margin-bottom: 48px;
 }
 
@@ -157,12 +157,12 @@ dt {
   padding-left: 8px;
   border-left: 5px solid #3C2B5B;
 }
-.signup-form__label-name {
+.label-name {
   margin-bottom: 8px;
   padding-left: 8px;
   border-left: 5px solid #3C2B5B;
 }
-.signup-form__label-name:not(:first-child) {
+.label-name:not(:first-child) {
   margin-top: 32px;
 }
 
@@ -199,7 +199,8 @@ input:focus {
   border-style: none;
   border-radius: 4px;
 }
-.submit-button.-signup {
+.submit-button.-signup,
+.submit-button.-login {
   margin-top: 48px;
   padding: 8px 32px;
   background: #777;
@@ -261,6 +262,21 @@ input:focus {
   border: 3px solid #E5A83F;
 }
 
+/* loginのページ
+---------------------------------------- */
+.stey-signed-in {
+  margin-top: 32px;
+}
+
+.mini {
+  font-size: 14px;
+}
+
+.copy {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
 
 /* =============================================
 BBS
@@ -356,16 +372,6 @@ Utility
 
 .uppercase {
   text-transform: uppercase;
-}
-
-.mini {
-  font-size: 14px;
-}
-
-.copy {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
 }
 
 .var_dump {
