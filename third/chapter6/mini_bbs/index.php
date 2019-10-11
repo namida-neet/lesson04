@@ -1,10 +1,7 @@
 <?php
 session_start();
 require('dbconnect.php');
-
-function h($str) {
-  echo htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-}
+require('htmlspecialchars.php');
 
 if (isset($_SESSION['id']) && $_SESSION['time'] + 60 * 10 > time()) {
   $_SESSION['time'] = time();
@@ -128,15 +125,14 @@ if (isset($_REQUEST['res'])) {
       <?php else: ?>
         <li>前のページへ</li>
       <?php endif; ?>
-      ｜
-      <li><a class="uppercase" href="index.php">top</a></li>
-      ｜
+      <li>｜<a class="uppercase" href="index.php">top</a>｜</li>
       <?php if ($page < $maxPage): ?>
         <li><a href="index.php?page=<?php if (isset($page)) {print($page + 1);} ?>">次のページへ</a></li>
       <?php else: ?>
         <li>次のページへ</li>
       <?php endif; ?>
       </ul>
+
     </div>
   </div>
   <div class="var_dump">

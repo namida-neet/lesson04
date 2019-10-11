@@ -81,6 +81,7 @@ pre,code,kbd,samp,tt {
   line-height:100%;
 }
 
+/* --------↑放置-------- */
 /* --------↓ここからかく-------- */
 body {
   background: #3C2B5B;
@@ -99,6 +100,8 @@ input, button, textarea {
   background: #E5A83F;
 }
 
+/* ヘッダー
+---------------------------------------- */
 #head {
   display: flex;
   flex-flow: row wrap;
@@ -108,7 +111,7 @@ input, button, textarea {
   padding: 20px 40px;
   border-radius: 4px;
   background: #3C2B5B;
-  color: #fff;
+  color: #fafafa;
 }
 
 h1 {
@@ -118,9 +121,9 @@ h1 {
 
 .header-button a {
   padding: 8px 16px;
-  border: 1px solid #fff;
+  border: 1px solid #fafafa;
   border-radius: 4px;
-  color: #fff;
+  color: #fafafa;
   text-decoration: none;
 }
 
@@ -130,12 +133,8 @@ h1 {
   color: #E5A83F;
 }
 
-/* ↓どこにあるんだ */
-/* h2 {
-  margin-bottom: 0.5em;
-  font-weight: bold;
-} */
-
+/* メイン部分
+---------------------------------------- */
 #content {
   position: relative;
   width: 722px;
@@ -146,11 +145,10 @@ h1 {
   font-size: 16px;
 }
 
-* html #content {
-  height: 490px;
-}
-
 dl {
+  margin-bottom: 48px;
+}
+.signup-form {
   margin-bottom: 48px;
 }
 
@@ -159,24 +157,17 @@ dt {
   padding-left: 8px;
   border-left: 5px solid #3C2B5B;
 }
+.signup-form__label-name {
+  margin-bottom: 8px;
+  padding-left: 8px;
+  border-left: 5px solid #3C2B5B;
+}
+.signup-form__label-name:not(:first-child) {
+  margin-top: 32px;
+}
 
 dd {
   margin-bottom: 32px;
-}
-
-/* =============================================
-Sign up
-============================================= */
-
-input[type="text"], input[type="password"] {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-input:focus {
-  outline: 0;
-  border: 3px solid #E5A83F;
 }
 
 .required {
@@ -189,25 +180,28 @@ input:focus {
   vertical-align: 4px;
 }
 
-#icon-upload-btn {
-  display: inline-block;
-  padding: 8px 16px;
+/* form 関連
+---------------------------------------- */
+input[type="text"], input[type="password"] {
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background: #fff;
-  cursor: pointer;
 }
 
-#filename {
-  background: none;
-  box-shadow: none;
-  border: none;
+input:focus {
+  outline: 0;
+  border: 3px solid #E5A83F;
 }
 
+/* ボタン
+---------------------------------------- */
 .submit-button {
-  padding: 8px 32px;
   border-style: none;
   border-radius: 4px;
+}
+.submit-button.-signup {
+  margin-top: 48px;
+  padding: 8px 32px;
   background: #777;
   color: #fafafa;
   font-size: 20px;
@@ -216,6 +210,8 @@ input:focus {
   padding: 8px 48px;
   background: #3C2B5B;
   cursor: pointer;
+  color: #fafafa;
+  font-size: 20px;
 }
 
 .cancel-button {
@@ -230,12 +226,13 @@ input:focus {
   font-size: 20px;
   text-decoration: none;
 }
-
 .cancel-button:focus {
   outline: 0;
   border: 3px solid #E5A83F;
 }
 
+/* thankyou.phpのページ
+---------------------------------------- */
 .thankyou-wrap {
   display: flex;
   flex-flow: column nowrap;
@@ -251,7 +248,6 @@ input:focus {
 .thankyou-login-button {
   margin-top: 48px;
 }
-
 .thankyou-login-button a {
   padding: 16px 32px;
   border-radius: 4px;
@@ -260,11 +256,11 @@ input:focus {
   font-size: 24px;
   text-decoration: none;
 }
-
 .thankyou-login-button a:focus {
   outline: 0;
   border: 3px solid #E5A83F;
 }
+
 
 /* =============================================
 BBS
@@ -358,6 +354,10 @@ Utility
   display: none;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 .mini {
   font-size: 14px;
 }
@@ -368,16 +368,11 @@ Utility
   bottom: 16px;
 }
 
-.uppercase {
-  text-transform: uppercase;
-}
-
 .var_dump {
   margin-top: 32px;
   padding: 16px;
   background: #fff;
 }
-
 pre {
   margin-bottom: 16px;
 }
@@ -385,15 +380,6 @@ pre {
 /* --------------------------------
 ここから下はあまりいじりたくない
 -------------------------------- */
-
-/* #foot {
-  width: 762px;
-  margin: 0 auto;
-  padding: 0 20px;
-  background: #fafafa;
-  text-align: right;
-} */
-
 th, td {
   padding: 3px;
   border: 1px solid #999;
@@ -427,12 +413,6 @@ li {
   color: #BB1850;
 }
 
-/* #lead {
-  margin-top: 80px;
-  margin-bottom: 1em;
-  font-size: 16px;
-} */
-
 .msg {
   clear: both;
   padding: 10px 24px;
@@ -449,8 +429,3 @@ li {
   margin: 0;
   padding-top: 5px;
 }
-/* .msg .day,
-.msg .day a {
-  font-size: 80%;
-  color: #999;
-} */

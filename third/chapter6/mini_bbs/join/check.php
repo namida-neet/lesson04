@@ -1,10 +1,7 @@
 <?php
 session_start();
 require('../dbconnect.php');
-
-function h($str) {
-  echo htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-}
+require('../htmlspecialchars.php');
 
 if (!isset($_SESSION['join'])) {
   header('Location: index.php');
@@ -32,7 +29,7 @@ if (!empty($_POST)) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Sign up</title>
+  <title>Check</title>
 
   <link rel="stylesheet" href="../style.css" />
 </head>
@@ -40,7 +37,7 @@ if (!empty($_POST)) {
 <body>
   <div id="wrap">
     <div id="head">
-      <h1 class="uppercase">Sign up</h1>
+      <h1 class="uppercase">Check</h1>
       <p class="header-button"><a href="../login.php"">Login</a></p>
     </div>
 
@@ -63,7 +60,7 @@ if (!empty($_POST)) {
           <dt class="uppercase">icon</dt>
           <dd>
             <?php if ($_SESSION['join']['image'] !== '') : ?>
-              <img src="../member_picture/<?php h($_SESSION['join']['image']); ?>" alt="">
+            <img src="../member_picture/<?php h($_SESSION['join']['image']); ?>" alt="<?php h($_SESSION['join']['name']); ?>のアイコン画像">
             <?php endif; ?>
           </dd>
         </dl>
