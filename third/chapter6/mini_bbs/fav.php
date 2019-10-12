@@ -29,8 +29,7 @@ if (isset($_SESSION['id'])) {
         ));
     }
 }
-$data1 = urlencode('あいうえお');
-header('Location: index.php?A=' . $data1);
+header('Location: index.php');
 exit();
 
 echo '★$_POST';

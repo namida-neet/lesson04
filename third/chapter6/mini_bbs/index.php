@@ -51,17 +51,11 @@ $start = ($page - 1) * 5;
 // $posts->bindParam(1, $start, PDO::PARAM_INT);
 // $posts->execute();
 
-$posts = $db->prepare('SELECT members.name, members.picture, posts.*, COUNT(favorites.score) AS favCnt
-FROM members, posts LEFT JOIN favorites ON posts.id = favorites.post_id
-WHERE members.id = posts.member_id
-GROUP BY posts.id
-ORDER BY posts.created DESC
-LIMIT ?, 5;');
+$posts = $db->prepare('SELECT m.name, m.picture, p.*, COUNT(f.score) AS favCnt FROM members m, posts p LEFT JOIN favorites f ON p.id = f.post_id WHERE m.id = p.member_id GROUP BY p.id ORDER BY p.created DESC LIMIT ?, 5;');
 $posts->bindParam(1, $start, PDO::PARAM_INT);
 $posts->execute();
 
 // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにいいねボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-
 
 if (isset($_REQUEST['res'])) {
     // 返信の処理
@@ -135,19 +129,28 @@ if (isset($_REQUEST['res'])) {
 
           <p class="favo">
             <a href="fav.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>">
-              あ
-              <!-- <?php if ($count['favCnt'] > 1): ?> -->
+              <!-- ↓仮置、こんなところにSQL書いておいていいのか？？？ -->
+              <?php
+              $favCheck = $db->prepare('SELECT * FROM favorites WHERE member_id=? AND post_id=?');
+              $favCheck->execute(array(
+                  $_SESSION['id'],
+                  $post['id'],
+              ));
+              $heart = $favCheck->fetch();
+
+              if (!empty($heart)): ?>
               <i class="fas fa-heart"></i>
-              <!-- <?php else: ?> -->
-              <!-- <i class="far fa-heart"></i> -->
-              <!-- <?php endif; ?> -->
+              <?php else: ?>
+              <i class="far fa-heart"></i>
+              <?php endif; ?>
+              <!-- ↑仮置 -->
             </a>
           </p>
           <p class="favCount">
             <?php echo $post['favCnt']; ?>
           </p>
 
-        <!-- 点数化したい↓ -->
+        <!-- 点数化したいな〜↓ -->
         <!-- <i class="far fa-smile"></i>
         <i class="far fa-laugh-beam"></i>
         <i class="far fa-grin-squint-tears"></i> -->
