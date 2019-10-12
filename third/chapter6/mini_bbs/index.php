@@ -45,10 +45,23 @@ $page = min($page, $maxPage);
 
 $start = ($page - 1) * 5;
 
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
-$posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id ORDER BY p.created DESC LIMIT ?,5');
+// $posts = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id ORDER BY p.created DESC LIMIT ?,5');
+// $posts->bindParam(1, $start, PDO::PARAM_INT);
+// $posts->execute();
+
+$posts = $db->prepare('SELECT members.name, members.picture, posts.*, COUNT(favorites.score) AS favCnt
+FROM members, posts LEFT JOIN favorites ON posts.id = favorites.post_id
+WHERE members.id = posts.member_id
+GROUP BY posts.id
+ORDER BY posts.created DESC
+LIMIT ?, 5;');
 $posts->bindParam(1, $start, PDO::PARAM_INT);
 $posts->execute();
+
+// ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにいいねボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
 
 if (isset($_REQUEST['res'])) {
     // 返信の処理
@@ -60,17 +73,6 @@ if (isset($_REQUEST['res'])) {
     $table = $response->fetch();
     $message = '@' . $table['name'] . ' ' . $table['message'] . "\n" . '> ';
 }
-
-// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-
-// いいねの数を数える
-// $counts = $db->prepare('SELECT p.id, f.post_id, COUNT(*) AS favCnt FROM posts p, favorites f WHERE p.id = f.post_id AND f.post_id=?');
-// $counts->execute(array(
-//     1,
-// ));
-// $count = $counts->fetch();
-
-// ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにいいねボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -132,14 +134,18 @@ if (isset($_REQUEST['res'])) {
 <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
 
           <p class="favo">
-            <a href="fav.php?usr=<?php h($member['id']); ?>&id=<?php h($post['id']); ?>">
-              <i class="far fa-heart"></i>
-              <!-- <i class="fas fa-heart"></i> -->
+            <a href="fav.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>">
+              あ
+              <!-- <?php if ($count['favCnt'] > 1): ?> -->
+              <i class="fas fa-heart"></i>
+              <!-- <?php else: ?> -->
+              <!-- <i class="far fa-heart"></i> -->
+              <!-- <?php endif; ?> -->
             </a>
           </p>
-          <!-- <p class="favCount">
-            <?php echo $count['favCnt']; ?>
-          </p> -->
+          <p class="favCount">
+            <?php echo $post['favCnt']; ?>
+          </p>
 
         <!-- 点数化したい↓ -->
         <!-- <i class="far fa-smile"></i>

@@ -36,7 +36,7 @@ $posts->execute(array(
       <?php if ($post = $posts->fetch()): ?>
       <div class="msg">
         <img src="member_picture/<?php h($post['picture']); ?>">
-        <p><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span></p>
+        <p class="post-message"><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span></p>
         <p class="day"><?php h($post['created']); ?></p>
       </div><!-- msg -->
       <?php else: ?>

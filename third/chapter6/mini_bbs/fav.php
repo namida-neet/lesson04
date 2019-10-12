@@ -3,7 +3,7 @@ session_start();
 require('dbconnect.php');
 
 if (isset($_SESSION['id'])) {
-    $postId = $_REQUEST['id'];
+    $postId = $_REQUEST['post'];
     $usrId = $_REQUEST['usr'];
 
     $favorites = $db->prepare('SELECT * FROM favorites WHERE member_id=? AND post_id=?');
@@ -12,7 +12,6 @@ if (isset($_SESSION['id'])) {
         $postId,
     ));
     $favorite = $favorites->fetch();
-    var_dump($favorite);
 
     if (empty($favorite)) {
         // いいね追加
@@ -30,6 +29,9 @@ if (isset($_SESSION['id'])) {
         ));
     }
 }
+$data1 = urlencode('あいうえお');
+header('Location: index.php?A=' . $data1);
+exit();
 
 echo '★$_POST';
 var_dump($_POST);
