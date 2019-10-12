@@ -77,7 +77,7 @@ if (isset($_GET['repost'])) {
         $_GET['repost'],
     ));
     $repostTable = $repostGetPost->fetch();
-    $repostMessage = 'RT ' . $repostTable['message'] . ' by ' . $repostTable['name'];
+    $repostMessage = '[リポスト] ' . $repostTable['message'] . ' by ' . $repostTable['name'];
 
     // リポストを投稿する
     $addRepost = $db->prepare('INSERT INTO posts SET member_id=?, message=?, repost_message_id=?, created=NOW()');
@@ -154,8 +154,16 @@ if (isset($_GET['repost'])) {
         <div class="reaction-tools">
 
           <p class="res-button">
-            <a href="index.php?res=<?php h($post['id']); ?>">Re</a>
+            <a href="index.php?res=<?php h($post['id']); ?>">Reply</a>
           </p>
+
+<!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにリツイートについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
+
+          <p class="res-button">
+            <a href="index.php?repost=<?php h($post['id']); ?>&usr=<?php h($member['id']); ?>">Repost</a>
+          </p>
+
+<!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにリツイートについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
 
 <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
 
@@ -186,14 +194,6 @@ if (isset($_GET['repost'])) {
         <i class="far fa-grin-squint-tears"></i> -->
 
 <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにいいねボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
-
-<!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにリツイートについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
-
-          <p class="res-button">
-            <a href="index.php?repost=<?php h($post['id']); ?>&usr=<?php h($member['id']); ?>">Repost</a>
-          </p>
-
-<!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにリツイートについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
 
           <?php if ($_SESSION['id'] === $post['member_id']): ?>
           <p class="delete-button">
