@@ -29,7 +29,10 @@ if (isset($_SESSION['id'])) {
         ));
     }
 }
-header('Location: index.php');
+
+$page = urlencode($_REQUEST['page']);
+
+header('Location: index.php?page=' . $page);
 exit();
 
 echo '★$_POST';

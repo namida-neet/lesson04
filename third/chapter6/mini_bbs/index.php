@@ -128,8 +128,7 @@ if (isset($_REQUEST['res'])) {
 <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
 
           <p class="favo">
-            <a href="fav.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>">
-              <!-- ↓仮置、こんなところにSQL書いておいていいのか？？？ -->
+            <a href="fav.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>">
               <?php
               $favCheck = $db->prepare('SELECT * FROM favorites WHERE member_id=? AND post_id=?');
               $favCheck->execute(array(
@@ -143,7 +142,6 @@ if (isset($_REQUEST['res'])) {
               <?php else: ?>
               <i class="far fa-heart"></i>
               <?php endif; ?>
-              <!-- ↑仮置 -->
             </a>
           </p>
           <p class="favCount">
