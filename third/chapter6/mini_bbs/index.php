@@ -40,10 +40,10 @@ $page = max($page, 1);
 
 $counts = $db->query('SELECT COUNT(*) AS cnt FROM posts');
 $cnt = $counts->fetch();
-$maxPage = ceil($cnt['cnt'] / 5);
+$maxPage = ceil($cnt['cnt'] / 2);
 $page = min($page, $maxPage);
 
-$start = ($page - 1) * 5;
+$start = ($page - 1) * 2;
 
 // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
@@ -51,7 +51,7 @@ $start = ($page - 1) * 5;
 // $posts->bindParam(1, $start, PDO::PARAM_INT);
 // $posts->execute();
 
-$posts = $db->prepare('SELECT m.name, m.picture, p.*, COUNT(f.score) AS favCnt FROM members m, posts p LEFT JOIN favorites f ON p.id = f.post_id WHERE m.id = p.member_id GROUP BY p.id ORDER BY p.created DESC LIMIT ?, 5;');
+$posts = $db->prepare('SELECT m.name, m.picture, p.*, COUNT(f.score) AS favCnt FROM members m, posts p LEFT JOIN favorites f ON p.id = f.post_id WHERE m.id = p.member_id GROUP BY p.id ORDER BY p.created DESC LIMIT ?, 2;');
 $posts->bindParam(1, $start, PDO::PARAM_INT);
 $posts->execute();
 
@@ -61,12 +61,36 @@ if (isset($_REQUEST['res'])) {
     // 返信の処理
     $response = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id AND p.id=?');
     $response->execute(array(
-      $_REQUEST['res'],
+        $_REQUEST['res'],
     ));
 
     $table = $response->fetch();
     $message = '@' . $table['name'] . ' ' . $table['message'] . "\n" . '> ';
 }
+
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにリツイートについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+if (isset($_GET['repost'])) {
+    // リポストするもとの投稿を取得する
+    $repostGetPost = $db->prepare('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE m.id=p.member_id AND p.id=?');
+    $repostGetPost->execute(array(
+        $_GET['repost'],
+    ));
+    $repostTable = $repostGetPost->fetch();
+    $repostMessage = 'RT ' . $repostTable['message'] . ' by ' . $repostTable['name'];
+
+    // リポストを投稿する
+    $addRepost = $db->prepare('INSERT INTO posts SET member_id=?, message=?, repost_message_id=?, created=NOW()');
+    $addRepost->execute(array(
+        $member['id'],
+        $repostMessage,
+        $_GET['repost'],
+    ));
+    header('Location: index.php');
+    exit();
+}
+
+// ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにリツイートについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -100,16 +124,21 @@ if (isset($_REQUEST['res'])) {
 
         <form class="bbs-form" action="" method="post">
           <textarea class="bbs-textarea" name="message" cols="50" rows="5"><?php if (isset($message)) { h($message); } ?></textarea>
-          <input type="hidden" name="reply_post_id" value="<?php if (isset($_REQUEST['res'])) { h($_REQUEST['res']); } ?>"><input class="submit-button -bbs-message" type="submit" value="post">
+          <input type="hidden" name="reply_post_id" value="<?php if (isset($_REQUEST['res'])) { h($_REQUEST['res']); } ?>">
+          <input class="submit-button -bbs-message" type="submit" value="post">
         </form>
       </div><!-- post-area -->
 
       <?php foreach ($posts as $post) : ?>
       <div class="msg">
         <img src="member_picture/<?php h($post['picture']); ?>" width="48" height="48" alt="<?php h($post['name']); ?>のアイコン">
-        <p class="post-message"><?php h($post['message']); ?><span class="name">（<?php h($post['name']); ?>）</span><span class="post-number">[No.<?php h($post['id']); ?>]</span></p>
+        <p class="post-message">
+          <?php h($post['message']); ?>
+          <span class="name">（<?php h($post['name']); ?>）</span>
+          <span class="post-number">[No.<?php h($post['id']); ?>]</span>
+        </p>
 
-        <div class="reaction-tools">
+        <div class="post-description">
 
           <p class="day">
             <a href="view.php?id=<?php h($post['id']); ?>&page=<?php h($page); ?>"><?php h($post['created']); ?></a>
@@ -120,6 +149,9 @@ if (isset($_REQUEST['res'])) {
             <a href="view.php?id=<?php h($post['reply_message_id']); ?>&page=<?php h($page); ?>">返信元のメッセージ</a>
           </p>
           <?php endif; ?>
+
+        </div><!-- post-description -->
+        <div class="reaction-tools">
 
           <p class="res-button">
             <a href="index.php?res=<?php h($post['id']); ?>">Re</a>
@@ -154,6 +186,14 @@ if (isset($_REQUEST['res'])) {
         <i class="far fa-grin-squint-tears"></i> -->
 
 <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにいいねボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
+
+<!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにリツイートについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
+
+          <p class="res-button">
+            <a href="index.php?repost=<?php h($post['id']); ?>&usr=<?php h($member['id']); ?>">Repost</a>
+          </p>
+
+<!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにリツイートについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
 
           <?php if ($_SESSION['id'] === $post['member_id']): ?>
           <p class="delete-button">
