@@ -456,7 +456,7 @@ li {
 /* --------------------------------
 いいねボタン
 -------------------------------- */
-.favo a {
+.favorite a {
   margin-left: 16px;
   color: #BB1850;
   font-size: 20px;
@@ -472,7 +472,7 @@ li {
 }
 
 .favCount,
-.starCount {
+.starAverage {
   position: relative;
   display: inline-block;
   margin-left: 14px;
@@ -485,7 +485,7 @@ li {
 }
 
 .favCount:before,
-.starCount:before {
+.starAverage:before {
   content: "";
   position: absolute;
   top: 50%;
@@ -497,7 +497,7 @@ li {
 }
 
 .favCount:after,
-.starCount:after {
+.starAverage:after {
   content: "";
   position: absolute;
   top: 50%;

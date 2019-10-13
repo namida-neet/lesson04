@@ -38,9 +38,9 @@ if (isset($_REQUEST['page']) && is_numeric($_REQUEST['page'])) {
 }
 $page = max($page, 1);
 
-$counts = $db->query('SELECT COUNT(*) AS cnt FROM posts');
-$cnt = $counts->fetch();
-$maxPage = ceil($cnt['cnt'] / 2);
+$counts = $db->query('SELECT COUNT(*) AS count FROM posts');
+$count = $counts->fetch();
+$maxPage = ceil($count['count'] / 2);
 $page = min($page, $maxPage);
 
 $start = ($page - 1) * 2;
@@ -51,11 +51,11 @@ $start = ($page - 1) * 2;
 // $posts->bindParam(1, $start, PDO::PARAM_INT);
 // $posts->execute();
 
-// $posts = $db->prepare('SELECT m.name, m.picture, p.*, COUNT(f.fav_score) AS favCnt FROM members m, posts p LEFT JOIN favorites f ON p.id = f.post_id WHERE m.id = p.member_id GROUP BY p.id ORDER BY p.created DESC LIMIT ?, 2;');
+// $posts = $db->prepare('SELECT m.name, m.picture, p.*, COUNT(f.fav_score) AS favCount FROM members m, posts p LEFT JOIN favorites f ON p.id = f.post_id WHERE m.id = p.member_id GROUP BY p.id ORDER BY p.created DESC LIMIT ?, 2;');
 // $posts->bindParam(1, $start, PDO::PARAM_INT);
 // $posts->execute();
 
-$posts = $db->prepare('SELECT m.name, m.picture, p.*, COUNT(f.fav_score) AS favCnt, AVG(s.star_score) AS starCnt FROM members m, posts p LEFT JOIN favorites f ON p.id = f.post_id LEFT JOIN stars s ON p.id = s.post_id WHERE m.id = p.member_id GROUP BY p.id ORDER BY p.created DESC LIMIT ?, 2;');
+$posts = $db->prepare('SELECT m.name, m.picture, p.*, COUNT(f.fav_score) AS favCount, AVG(s.star_score) AS starAverage FROM members m, posts p LEFT JOIN favorites f ON p.id = f.post_id LEFT JOIN stars s ON p.id = s.post_id WHERE m.id = p.member_id GROUP BY p.id ORDER BY p.created DESC LIMIT ?, 2;');
 $posts->bindParam(1, $start, PDO::PARAM_INT);
 $posts->execute();
 
@@ -164,24 +164,24 @@ if (isset($_GET['repost'])) {
 <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにリツイートについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
 
           <p class="res-button">
-            <a href="index.php?repost=<?php h($post['id']); ?>&usr=<?php h($member['id']); ?>">Repost</a>
+            <a href="index.php?repost=<?php h($post['id']); ?>&user=<?php h($member['id']); ?>">Repost</a>
           </p>
 
 <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにリツイートについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
 
 <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここにいいねボタンについて書いていきます↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
 
-          <p class="favo">
-            <a href="fav.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>">
+          <p class="favorite">
+            <a href="fav.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>">
               <?php
               $favCheck = $db->prepare('SELECT * FROM favorites WHERE member_id=? AND post_id=?');
               $favCheck->execute(array(
                   $_SESSION['id'],
                   $post['id'],
               ));
-              $heart = $favCheck->fetch();
+              $heartIcon = $favCheck->fetch();
 
-              if (!empty($heart)): ?>
+              if (!empty($heartIcon)): ?>
               <i class="fas fa-heart"></i>
               <?php else: ?>
               <i class="far fa-heart"></i>
@@ -189,7 +189,7 @@ if (isset($_GET['repost'])) {
             </a>
           </p>
           <p class="favCount">
-            <?php h($post['favCnt']); ?>
+            <?php h($post['favCount']); ?>
           </p>
 
 <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここにいいねボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
@@ -206,30 +206,30 @@ if (isset($_GET['repost'])) {
             $starIcon = $starCheck->fetch();
 
             if (empty($starIcon)): ?>
-            <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=1"><i class="far fa-smile"></i></a>
-            <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=2"><i class="far fa-laugh-beam"></i></a>
-            <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=3"><i class="far fa-grin-squint-tears"></i></a>
+            <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=1"><i class="far fa-smile"></i></a>
+            <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=2"><i class="far fa-laugh-beam"></i></a>
+            <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=3"><i class="far fa-grin-squint-tears"></i></a>
             <?php else: ?>
               <?php if ($starIcon['star_score'] === "1"): ?>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=0"><i class="fas fa-minus-circle"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=1"><i class="far fa-smile star-icon-color"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=2"><i class="far fa-laugh-beam"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=3"><i class="far fa-grin-squint-tears"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=0"><i class="fas fa-minus-circle"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=1"><i class="far fa-smile star-icon-color"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=2"><i class="far fa-laugh-beam"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=3"><i class="far fa-grin-squint-tears"></i></a>
               <?php elseif ($starIcon['star_score'] === "2"): ?>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=0"><i class="fas fa-minus-circle"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=1"><i class="far fa-smile star-icon-color"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=2"><i class="far fa-laugh-beam star-icon-color"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=3"><i class="far fa-grin-squint-tears"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=0"><i class="fas fa-minus-circle"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=1"><i class="far fa-smile star-icon-color"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=2"><i class="far fa-laugh-beam star-icon-color"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=3"><i class="far fa-grin-squint-tears"></i></a>
               <?php elseif ($starIcon['star_score'] === "3"): ?>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=0"><i class="fas fa-minus-circle"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=1"><i class="far fa-smile star-icon-color"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=2"><i class="far fa-laugh-beam star-icon-color"></i></a>
-              <a href="star.php?usr=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=3"><i class="far fa-grin-squint-tears star-icon-color"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=0"><i class="fas fa-minus-circle"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=1"><i class="far fa-smile star-icon-color"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=2"><i class="far fa-laugh-beam star-icon-color"></i></a>
+              <a href="star.php?user=<?php h($member['id']); ?>&post=<?php h($post['id']); ?>&page=<?php h($page); ?>&score=3"><i class="far fa-grin-squint-tears star-icon-color"></i></a>
               <?php endif; ?>
             <?php endif; ?>
           </p>
-          <p class="starCount">
-            <?php h(round($post['starCnt'], 1)); ?>
+          <p class="starAverage">
+            <?php h(round($post['starAverage'], 1)); ?>
           </p>
 
 <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ここに星ボタンについて書いていきます↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->

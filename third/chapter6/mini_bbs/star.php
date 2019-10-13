@@ -3,13 +3,13 @@ session_start();
 require('dbconnect.php');
 
 if (isset($_SESSION['id'])) {
-    $usrId = $_REQUEST['usr'];
+    $userId = $_REQUEST['user'];
     $postId = $_REQUEST['post'];
     $score = $_REQUEST['score'];
 
     $stars = $db->prepare('SELECT * FROM stars WHERE member_id=? AND post_id=?');
     $stars->execute(array(
-        $usrId,
+        $userId,
         $postId,
     ));
     $star = $stars->fetch();
@@ -18,7 +18,7 @@ if (isset($_SESSION['id'])) {
         // 星の点数を追加
         $addStar = $db->prepare('INSERT INTO stars SET member_id=?, post_id=?, star_score=?');
         $addStar->execute(array(
-            $usrId,
+            $userId,
             $postId,
             $score,
         ));
@@ -27,7 +27,7 @@ if (isset($_SESSION['id'])) {
             // 星を削除する
             $deleteStar = $db->prepare('DELETE FROM stars WHERE member_id=? AND post_id=?');
             $deleteStar->execute(array(
-                $usrId,
+                $userId,
                 $postId,
             ));
         } else {
@@ -35,7 +35,7 @@ if (isset($_SESSION['id'])) {
             $changeScore = $db->prepare('UPDATE stars SET star_score=? WHERE member_id=? AND post_id=?');
             $changeScore->execute(array(
                 $score,
-                $usrId,
+                $userId,
                 $postId,
             ));
         }
