@@ -457,13 +457,22 @@ li {
 いいねボタン
 -------------------------------- */
 .favo a {
-  margin-left: 8px;
+  margin-left: 16px;
   color: #BB1850;
   font-size: 20px;
   text-decoration: none;
 }
+.star {
+  margin-left: 16px;
+}
+.star a {
+  color: #333;
+  font-size: 20px;
+  text-decoration: none;
+}
 
-.favCount {
+.favCount,
+.starCount {
   position: relative;
   display: inline-block;
   margin-left: 14px;
@@ -475,7 +484,8 @@ li {
   font-size: 14px;
 }
 
-.favCount:before {
+.favCount:before,
+.starCount:before {
   content: "";
   position: absolute;
   top: 50%;
@@ -486,7 +496,8 @@ li {
   z-index: 2;
 }
 
-.favCount:after {
+.favCount:after,
+.starCount:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -495,4 +506,9 @@ li {
   border: 5px solid transparent;
   border-right: 10px solid #555;
   z-index: 1;
+}
+
+.star-icon-color {
+  background: #E5A83F;
+  border-radius: 50%;
 }
